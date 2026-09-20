@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,8 +19,15 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كانت كل سلسلة بطاقة بارتفاع ١٠٠ وشكل عشوائي يتغيّر مع كل إعادة بناء —
 /// فتقفز الأشكال أمام العين. صارت صفوفًا نحيلة متساوية تفصلها شعرة.
+@RoutePage()
 class BaseAudioScreen extends StatefulWidget {
-  const BaseAudioScreen({required this.id, required this.title, super.key});
+  // العنوان يُمرَّر في الرابط لأن الشاشة تعرضه قبل وصول البيانات؛ ولو غاب
+  // (رابط عميق مختصر) بقي فارغًا ولم تنكسر الشاشة.
+  const BaseAudioScreen({
+    @PathParam('id') required this.id,
+    @QueryParam('title') this.title = '',
+    super.key,
+  });
 
   final String id;
   final String title;

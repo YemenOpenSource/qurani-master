@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,7 @@ import 'package:quran_app/features/zkar_after_pray/presentation/bloc/zkar_after_
 import 'package:quran_app/l10n/l10n.dart';
 
 /// أذكار ما بعد الصلاة: قائمة صفوف نحيلة على أرضية الصفحة، بلا بطاقات.
+@RoutePage()
 class ZkarAfterPrayScreen extends StatefulWidget {
   const ZkarAfterPrayScreen({super.key});
 

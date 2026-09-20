@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/components/confirm_delete_dialog_widget.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
@@ -31,8 +33,25 @@ part 'floating_adhkar_my_adhkar_screen_manage_part.dart';
 ///
 /// كانت كل قائمة بطاقات بحدود وشارات؛ صارت صفوفًا نحيلة بمفتاح واحد في
 /// طرف كل صفّ، والتبويب شريطًا بخطّ ذهبي تحت الاسم بدل صندوق مظلّل.
-class FloatingAdhkarMyAdhkarScreen extends StatelessWidget {
+// TODO(routing): `FloatingAdhkarBloc` مسجّل في
+// `floating_adhkar/data/di/injection_container.dart` كـ `registerFactory`،
+// فالنسخة التي يحلّها [wrappedRoute] غير نسخة `FloatingAdhkarProvider` التي
+// كانت تُمرَّر بـ `BlocProvider.value`. لذلك نُطلق `FloatingAdhkarLoadEvent`
+// هنا حتى تملك الشاشة حالتها. لتشارك الشاشتان نسخة واحدة فعلًا يلزم تحويل
+// التسجيل إلى `registerLazySingleton` — قرار خارج هذه الشاشة.
+@RoutePage()
+class FloatingAdhkarMyAdhkarScreen extends StatelessWidget
+    implements AutoRouteWrapper {
   const FloatingAdhkarMyAdhkarScreen({super.key});
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider<FloatingAdhkarBloc>(
+      create: (_) =>
+          sl<FloatingAdhkarBloc>()..add(const FloatingAdhkarLoadEvent()),
+      child: this,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

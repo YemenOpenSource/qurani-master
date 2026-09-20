@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,7 @@ import 'package:quran_app/l10n/l10n.dart';
 /// كانت مئة وأربع عشرة بطاقة متتالية، لكلٍّ إطارها وظلّها وشارتها — فلا شيء
 /// يبرز لأن كل شيء بارز. صارت صفوفًا نحيلة متساوية تفصلها شعرة، ورقم السورة
 /// في مربّع الأيقونة، وعدد آياتها رقمًا هادئًا على الطرف.
+@RoutePage()
 class SurahWithAllDetailScreen extends StatefulWidget {
   const SurahWithAllDetailScreen({super.key});
 

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,8 +16,9 @@ import 'package:quran_app/l10n/l10n.dart';
 /// كانت الشاشة تفتح صندوقًا فارغًا بحدّ رمادي لأن العارض كان معطّلاً. صارت
 /// تعرض الملفّ نفسه على أرضية التطبيق، وإن تعذّر فتحه ظهر سطر واحد يشرح
 /// السبب ويعرض فتحه خارج التطبيق.
+@RoutePage(name: 'ReadBookRoute')
 class ReadBook extends StatefulWidget {
-  const ReadBook({super.key, this.url = ''});
+  const ReadBook({super.key, @QueryParam('url') this.url = ''});
 
   final String url;
 
@@ -102,7 +104,7 @@ class _TopBar extends StatelessWidget {
       child: Row(
         children: [
           IconButton(
-            onPressed: context.pop,
+            onPressed: () => Navigator.pop(context),
             tooltip: context.l10n.commonBack,
             icon: AppIcon(
               Directionality.of(context) == TextDirection.rtl

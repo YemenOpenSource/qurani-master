@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
@@ -7,6 +8,7 @@ import 'package:quran_app/features/setting/data/services/social_links_service.da
 import 'package:quran_app/features/setting/presentation/view/widgets/settings_skin.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+@RoutePage()
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
 
@@ -38,6 +40,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 }
 
+@RoutePage()
 class DataSafetyScreen extends StatelessWidget {
   const DataSafetyScreen({super.key});
 
@@ -73,6 +76,7 @@ class DataSafetyScreen extends StatelessWidget {
   }
 }
 
+@RoutePage()
 class AboutAppScreen extends StatelessWidget {
   const AboutAppScreen({super.key});
 
@@ -108,6 +112,7 @@ class AboutAppScreen extends StatelessWidget {
   }
 }
 
+@RoutePage()
 class DeveloperAboutScreen extends StatelessWidget {
   const DeveloperAboutScreen({super.key});
 

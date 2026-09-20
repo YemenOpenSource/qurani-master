@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/notification/notification_service.dart';
@@ -12,6 +13,16 @@ import 'package:quran_app/features/young_muslim/domain/repositories/young_muslim
 import 'package:quran_app/features/young_muslim/presentation/bloc/young_muslim_bloc.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/pages/young_muslim_home_screen.dart';
 
+/// نقطة الدخول لقسم «المسلم الصغير».
+///
+/// تبني المستودع والـbloc بنفسها ثم تغلّف [YoungMuslimHomeScreen] بـ
+/// [YoungMuslimRouteScope]. هي المسار المعلَن على `/young-muslim`، واسم مساره
+/// المولَّد `YoungMuslimProviderRoute` هو ما تتوقّعه
+/// `lib/core/router/analytics_screen_names.dart`.
+// اسم المسار صريح: اسم الصنف لا يحتوي «Page» ولا «Screen»، و
+// replaceInRouteName استبدالٌ نصّي بلا احتياطي، فكان المولَّد يحمل اسم
+// الودجت نفسه ويتصادم معها في app_router.gr.dart.
+@RoutePage(name: 'YoungMuslimProviderRoute')
 class YoungMuslimProvider extends StatefulWidget {
   const YoungMuslimProvider({super.key});
 

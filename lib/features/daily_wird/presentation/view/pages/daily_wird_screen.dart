@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +26,7 @@ part 'daily_wird_screen_presets_part.dart';
 part 'daily_wird_screen_items_part.dart';
 part 'daily_wird_screen_reminder_part.dart';
 
+@RoutePage()
 class DailyWirdScreen extends StatelessWidget {
   const DailyWirdScreen({super.key});
 

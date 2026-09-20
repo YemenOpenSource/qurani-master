@@ -18,7 +18,7 @@ class CloseIconWidget extends StatelessWidget {
             color: context.primaryColor,
           ),
           onPressed: () {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
       ],

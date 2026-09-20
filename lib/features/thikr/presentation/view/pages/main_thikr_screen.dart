@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ import 'package:quran_app/l10n/l10n.dart';
 /// عشرة مربّعات متساوية بظلّ وحدّ كانت تُقرأ ككتلة واحدة لا بداية لها.
 /// الآن: وردُ اليوم وحده هو ما يرتفع، وما بعده مجموعات ثلاث من صفوف
 /// نحيلة يفصلها خطّ شعرة — الباب واضح قبل أن تصل العين إلى الأيقونة.
+@RoutePage()
 class MainThikrScreen extends StatelessWidget {
   const MainThikrScreen({super.key});
 

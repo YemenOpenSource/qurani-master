@@ -320,8 +320,8 @@
 //                                         page: surah.pageNum! - 1,
 //                                       ),
 //                                     );
-//                                 context.pop();
-//                                 // context.pop();
+//                                 Navigator.pop(context);
+//                                 // Navigator.pop(context);
 //                                 // quranCtrl.changeSurahListOnTap(surah.ayahs.first.page);
 //                               },
 //                             ),

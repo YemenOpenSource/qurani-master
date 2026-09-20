@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
@@ -12,13 +14,27 @@ import 'package:quran_app/gen/fonts.gen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
 /// شاشة عمل واحد من الزاد: النصّ هو البطل، وما حوله سطر واحد لا أكثر.
-class DailyWirdFocusScreen extends StatelessWidget {
+@RoutePage()
+class DailyWirdFocusScreen extends StatelessWidget implements AutoRouteWrapper {
   const DailyWirdFocusScreen({
-    required this.itemId,
+    @PathParam('itemId') required this.itemId,
     super.key,
   });
 
   final String itemId;
+
+  // TODO(routing): `DailyWirdBloc` is registered with `registerFactory` in
+  // `lib/features/daily_wird/data/di/injection_container.dart`, so this route
+  // gets its OWN bloc instance rather than the one `DailyWirdScreen` built.
+  // Ticking an item here therefore will not refresh the list behind it. Either
+  // promote the registration to `registerLazySingleton`, or make
+  // `DailyWirdScreen` re-dispatch `DailyWirdLoadEvent` when this route pops.
+  // Not changed here: registrations are owned by the DI/service-locator task.
+  @override
+  Widget wrappedRoute(BuildContext context) => BlocProvider<DailyWirdBloc>(
+        create: (_) => sl<DailyWirdBloc>()..add(const DailyWirdLoadEvent()),
+        child: this,
+      );
 
   @override
   Widget build(BuildContext context) {

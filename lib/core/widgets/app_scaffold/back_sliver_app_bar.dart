@@ -23,7 +23,7 @@ class BackSliverAppBar extends StatelessWidget {
           backgroundColor: context.primaryColor,
           child: FittedBox(
             child: IconButton(
-              onPressed: () => context.pop(),
+              onPressed: () => Navigator.pop(context),
               icon: AppIcon(
                 AppIcons.backFor(context),
                 color: Colors.white,

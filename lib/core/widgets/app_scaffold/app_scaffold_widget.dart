@@ -157,7 +157,7 @@ class _BackButton extends StatelessWidget {
     final skin = AppSkin.of(context);
 
     return IconButton(
-      onPressed: () => context.pop(),
+      onPressed: () => Navigator.pop(context),
       tooltip: context.l10n.commonBack,
       icon: AppIcon(
         AppIcons.backFor(context),

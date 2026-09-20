@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -26,16 +27,28 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// فصارت القائمة هي الصفحة، والخريطة بمفتاحٍ في الرأس. ولم تُفقد ميزة:
 /// النطاق والتحديث وإعادة التمركز والاتجاهات كلّها باقية.
+@RoutePage()
 class TravelPlacesMapScreen extends StatelessWidget {
-  const TravelPlacesMapScreen({required this.placeType, super.key});
+  const TravelPlacesMapScreen({
+    @PathParam('placeType') required this.placeTypeSlug,
+    super.key,
+  });
 
-  final TravelerPlaceType placeType;
+  /// نوع المكان كما يصل من المسار: `mosque` أو `halal-restaurant`.
+  ///
+  /// نصّ لا قيمة enum لأن `auto_route` لا يفكّ الـ enums من المسار. التحويل
+  /// يتم في [placeType]، ورابط بقيمة مجهولة يسقط على المساجد بدل أن ينهار.
+  final String placeTypeSlug;
+
+  TravelerPlaceType get placeType =>
+      TravelerPlaceTypeX.fromSlug(placeTypeSlug) ?? TravelerPlaceType.mosque;
 
   @override
   Widget build(BuildContext context) {
+    final type = placeType;
     return BlocProvider(
-      create: (context) => TravelPlacesBloc(placeType: placeType),
-      child: _TravelPlacesView(placeType: placeType),
+      create: (context) => TravelPlacesBloc(placeType: type),
+      child: _TravelPlacesView(placeType: type),
     );
   }
 }

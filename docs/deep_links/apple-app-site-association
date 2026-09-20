@@ -1,0 +1,27 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["W77Q2VMT4P.com.tamaanina.app"],
+        "components": [
+          { "/": "/quran/*", "comment": "Quran reader" },
+          { "/": "/plans/*", "comment": "Reading plans" },
+          { "/": "/prayer/*", "comment": "Prayer times and athan" },
+          { "/": "/thikr/*", "comment": "Athkar" },
+          { "/": "/wird/*", "comment": "Morning and evening wird" },
+          { "/": "/daily-wird/*", "comment": "Daily wird" },
+          { "/": "/young-muslim/*", "comment": "Young Muslim section" },
+          { "/": "/duas/*", "comment": "Duas" },
+          { "/": "/tasbeeh/*", "comment": "Tasbeeh" },
+          { "/": "/qiblah/*", "comment": "Qiblah" },
+          { "/": "/settings/*", "comment": "Settings" },
+          {
+            "/": "/*",
+            "exclude": true,
+            "comment": "Everything else stays in the browser. Must be last: components are evaluated top-to-bottom, first match wins."
+          }
+        ]
+      }
+    ]
+  }
+}

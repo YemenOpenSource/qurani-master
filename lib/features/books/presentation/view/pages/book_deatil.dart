@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,10 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كانت الملفّات داخل `PageView` ببطاقات ملوّنة وصورة غلاف وهمية وزرّين
 /// متجاورين. صارت صفوفًا: كلّ ملفّ سطر فيه حجمه وزرّا القراءة والتنزيل.
+// TODO(routing): `data` هنا كائن غير مُصنَّف (dynamic) يصل من قائمة الكتب،
+// فلا يمكن تمريره في مسار. الوجهة تعمل بالدفع داخل التطبيق فقط ولا تُفتح
+// برابط عميق حتى يُستبدَل `data` بمعرّف (id) يُحمَّل به الكتاب.
+@RoutePage(name: 'BookDetailRoute')
 class BookDetail extends StatefulWidget {
   const BookDetail({super.key, this.data});
 

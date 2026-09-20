@@ -61,6 +61,49 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <!-- Android App Links: https://tamaneena.app/…
+
+                 android:autoVerify="true" makes Android fetch
+                 https://tamaneena.app/.well-known/assetlinks.json at install
+                 time and, on success, open these links directly in the app with
+                 no chooser dialog.
+
+                 The SHA-256 in that file MUST be the *Play app signing* key
+                 (Play Console → App integrity), not the upload key. Using the
+                 upload key works in a locally built release APK and fails for
+                 every Play install — see docs/DEEP_LINKS.md.
+
+                 console.tamaneena.app is deliberately NOT listed: on Android 11
+                 and below one host without a matching assetlinks.json fails
+                 verification for the whole app, and admin console URLs should
+                 stay in the browser anyway. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:host="tamaneena.app" />
+                <data android:host="www.tamaneena.app" />
+            </intent-filter>
+
+            <!-- Custom-scheme fallback for contexts where an https link does not
+                 survive: OAuth callbacks, in-app browsers, QR codes.
+
+                 It is a SEPARATE filter with no autoVerify on purpose — putting
+                 a non-http scheme inside the verified filter breaks App Links
+                 verification entirely.
+
+                 host="app" is required, and is what keeps this filter from
+                 catching the home-screen widget's tamaneena://widget/… URIs,
+                 which are delivered through the home_widget plugin channel
+                 rather than the Android deep-link system. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tamaneena" android:host="app" />
+            </intent-filter>
         </activity>
 
         <!-- Don't delete the meta-data below.

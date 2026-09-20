@@ -308,7 +308,7 @@
 //                                 context.read<ReadQuranBloc>().add(
 //                                       JumpToPageEvent(page: ayah.page! - 1),
 //                                     );
-//                                 context.pop();
+//                                 Navigator.pop(context);
 //                               },
 //                             ),
 //                             hDivider(

@@ -153,7 +153,7 @@ Future<void> showMyExitDialogFunction({
                       children: [
                         InkWell(
                           onTap: () {
-                            context.pop();
+                            Navigator.pop(context);
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -170,7 +170,7 @@ Future<void> showMyExitDialogFunction({
                         ),
                         InkWell(
                           onTap: () async {
-                            context.pop();
+                            Navigator.pop(context);
                             await SystemNavigator.pop();
                           },
                           child: Container(

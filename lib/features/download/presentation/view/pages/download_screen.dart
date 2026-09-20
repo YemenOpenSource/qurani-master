@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -19,6 +20,7 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كان فوق القائمة شريط تبويبات بخمس أيقونات ملوّنة، وتحته بطاقة لكل مهمّة.
 /// صار الشريط أسماءً صغيرة يعلّمها خطّ ذهبي، والمهامّ صفوفًا نحيلة.
+@RoutePage()
 class DownloadScreen extends StatefulWidget {
   const DownloadScreen({super.key});
 

@@ -156,7 +156,17 @@ extension MyNavigator on BuildContext {
     fadeNavigation(page: page, context: this, screenName: screenName);
   }
 
-  void pop() => Navigator.pop(this);
+  // أُزيل `pop()` عمدًا.
+  //
+  // `auto_route` يضيف `pop()` على BuildContext عبر امتداده `AutoRouterX`،
+  // فوجود الاثنين معًا خطأ تصريف (`ambiguous_extension_member_access`) في كل
+  // ملف يستوردهما. والأخطر أن دلالتيهما مختلفتان: هذا كان `Navigator.pop`
+  // المهذّب، بينما `pop()` في auto_route هو الإغلاق **القسري** الذي يتجاوز
+  // `PopScope` (المهذّب عنده اسمه `maybePop()`).
+  //
+  // فلو أُبقي الاسم لكان أي استيراد جديد لـ auto_route يبدّل السلوك بصمت.
+  // مواضع الاستدعاء تستعمل الآن `Navigator.pop(context)` صراحةً.
+
   void hideDialog() => Navigator.of(this, rootNavigator: true).pop('dialog');
   void pushAndRemoveUntil(Widget page, {String? screenName}) {
     fadeNavigationWithRemove(

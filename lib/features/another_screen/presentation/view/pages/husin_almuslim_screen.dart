@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/components/shimmer_widget.dart';
@@ -17,6 +18,7 @@ import 'package:quran_app/l10n/l10n.dart';
 /// كل باب كان يجلس في بطاقة بحدّ وظلّ وشارتين، فصارت الصفحة صناديق
 /// متراصّة. الآن الأبواب صفوف نحيلة على أرضية واحدة يفصلها خطّ شعرة،
 /// والنصّ يُقرأ في ورقة التفاصيل بخطّ المصحف.
+@RoutePage()
 class HisnMuslimScreen extends StatefulWidget {
   const HisnMuslimScreen({super.key});
 

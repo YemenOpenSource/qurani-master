@@ -1,10 +1,12 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/components/button_progress_state.dart';
 import 'package:quran_app/core/failure/request_state.dart';
 import 'package:quran_app/core/services/device_info_service.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
@@ -20,8 +22,22 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كان النموذج داخل بطاقة بتدرّج وحقول محاطة بإطارات — إطار داخل إطار.
 /// صار كلّ حقل صفًّا: عنوانه يمينًا وقيمته يسارًا، تفصلها شعرة.
-class QuranPlanAddScreen extends StatefulWidget {
+@RoutePage()
+class QuranPlanAddScreen extends StatefulWidget implements AutoRouteWrapper {
   const QuranPlanAddScreen({super.key});
+
+  // TODO(routing): `QuranPlanBloc` is a `registerFactory` in
+  // `lib/features/quran_plan/data/di/injection_container.dart`, so this route
+  // owns a different instance than `QuranPlanListScreen`. A plan created here
+  // will not appear in the list until the list reloads. Either promote the
+  // registration to `registerLazySingleton`, or have `QuranPlanListScreen`
+  // dispatch `LoadAllPlansEvent` when this route pops. Registrations are owned
+  // by the DI/service-locator task, so nothing is changed here.
+  @override
+  Widget wrappedRoute(BuildContext context) => BlocProvider<QuranPlanBloc>(
+        create: (_) => sl<QuranPlanBloc>(),
+        child: this,
+      );
 
   @override
   State<QuranPlanAddScreen> createState() => _QuranPlanAddScreenState();
@@ -92,7 +108,7 @@ class _QuranPlanAddScreenState extends State<QuranPlanAddScreen> {
           previous.createRequestState != current.createRequestState,
       listener: (context, state) {
         if (state.createRequestState == RequestState.success) {
-          context.pop();
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {

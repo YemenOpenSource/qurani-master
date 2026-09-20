@@ -287,7 +287,7 @@
 //                                   context
 //                                       .read<ReadQuranBloc>()
 //                                       .add(JumpToPageEvent(page: page));
-//                                   context.pop();
+//                                   Navigator.pop(context);
 //                                   // final page = surah.surahNumber;
 //                                   // context
 //                                   //     .read<ReadQuranBloc>()
@@ -295,7 +295,7 @@
 //                                   //     .jumpToPage(
 //                                   //       page - 1,
 //                                   //     );
-//                                   // context.pop();
+//                                   // Navigator.pop(context);
 //                                 },
 //                               ),
 //                               hDivider(

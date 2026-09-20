@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:adhan/adhan.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +36,7 @@ part 'prayer_time_screen_atoms_part.dart';
 /// صفوفه الصلوات الستّ وأعمدته أيام الأسبوع السبعة ابتداءً من اليوم، فيجيب
 /// فورًا عن «متى فجر بكرة؟» — وهو سؤال لا تجيب عنه الشاشة الرئيسية. عمود
 /// الأسماء مثبّت، وبقية الأعمدة تُسحب أفقيًا.
+@RoutePage()
 class PrayerTimeScreen extends StatefulWidget {
   const PrayerTimeScreen({super.key});
 

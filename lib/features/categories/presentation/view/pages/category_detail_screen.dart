@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,10 @@ import 'package:quran_app/features/home/presentation/view/widgets/home_section_h
 import 'package:quran_app/l10n/l10n.dart';
 
 /// تفاصيل مادة واحدة: وصفها ثم مرفقاتها صفوفًا نحيلة.
+// TODO(routing): `category` كائن `CategoryDetailModel` كامل، فلا يُمرَّر في
+// مسار. الوجهة للدفع داخل التطبيق فقط حتى يُختصر الوسيط إلى معرّف (id)
+// تُحمَّل به المادة.
+@RoutePage()
 class CategoryDetailScreen extends StatelessWidget {
   const CategoryDetailScreen({required this.category, super.key});
 

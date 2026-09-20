@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +13,7 @@ import 'package:quran_app/features/hadith_40/presentation/view/widgets/hadith_40
 import 'package:quran_app/gen/fonts.gen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+@RoutePage()
 class Hadith40Screen extends StatefulWidget {
   const Hadith40Screen({super.key});
 

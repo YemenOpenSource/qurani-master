@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/services/service_locator.dart';
@@ -10,9 +11,11 @@ import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_
 import 'package:quran_app/features/smart_outreach/presentation/view/widgets/smart_outreach_ui_kit.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+@RoutePage()
 class SmartOutreachExecutionScreen extends StatefulWidget {
   const SmartOutreachExecutionScreen({
-    required this.scheduleId,
+    @PathParam('scheduleId') required this.scheduleId,
+    @QueryParam('launchedFromNotification')
     this.launchedFromNotification = false,
     super.key,
   });

@@ -74,7 +74,7 @@ class TravelerHeader extends StatelessWidget {
           TravelerIconAction(
             icon: travelerBackIcon(context),
             tooltip: context.l10n.commonBack,
-            onTap: context.pop,
+            onTap: () => Navigator.pop(context),
           ),
           SizedBox(width: 4.w),
           Expanded(

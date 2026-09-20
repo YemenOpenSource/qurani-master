@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
@@ -19,8 +21,28 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// ثلاثة صناديق ملوّنة صارت: مفتاحًا واحدًا مرتفعًا، ثم أقسامًا تفصلها
 /// خطوط شعرة. رقائق الاختيار تمتلئ ذهبًا عند الاختيار بدل تبديل لونها.
-class FloatingAdhkarSettingsScreen extends StatefulWidget {
+// TODO(routing): نسختان من المشكلة نفسها:
+// (1) `FloatingAdhkarBloc` مسجّل كـ `registerFactory`، فهذه الشاشة تأخذ نسخة
+//     جديدة بدل نسخة `FloatingAdhkarProvider`.
+// (2) `initState` يقرأ `state.settings` فورًا ليبني `_draft`، و`Load` غير
+//     متزامن، فالحالة وقتها فارغة ويقع الاختيار على `defaults()` — وكان قبل
+//     الترحيل يجد الإعدادات محمّلة في نسخة الأب.
+// الحلّ الصحيح تسجيل البلوك `registerLazySingleton` في `injection_container`
+// الخاص بالميزة أو جعل `_draft` يتزامن مع أول حالة محمَّلة. كلاهما تغيير
+// سلوك، فلم يُتّخذ هنا.
+@RoutePage()
+class FloatingAdhkarSettingsScreen extends StatefulWidget
+    implements AutoRouteWrapper {
   const FloatingAdhkarSettingsScreen({super.key});
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider<FloatingAdhkarBloc>(
+      create: (_) =>
+          sl<FloatingAdhkarBloc>()..add(const FloatingAdhkarLoadEvent()),
+      child: this,
+    );
+  }
 
   @override
   State<FloatingAdhkarSettingsScreen> createState() =>

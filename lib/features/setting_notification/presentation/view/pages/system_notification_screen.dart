@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/extensions/request_state_extension.dart';
@@ -8,6 +9,7 @@ import 'package:quran_app/features/setting_notification/presentation/view/widget
 import 'package:quran_app/l10n/l10n.dart';
 
 /// إشعارات النظام: مجموعتان — ما هو مجدول، وما هو ظاهر الآن.
+@RoutePage()
 class SystemNotificationScreen extends StatelessWidget {
   const SystemNotificationScreen({super.key});
 

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,7 @@ import 'package:quran_app/l10n/l10n.dart';
 /// صارت الرحلة نفسها: خطٌّ رأسي ومحطّات بترتيب وقوعها، يمتلئ ذهبًا إلى حيث
 /// وصلت. والمحطّة المفتوحة عند الدخول هي أوّل ما لم يُتمّ، فيفتح المسافر
 /// الصفحة وهو في موضعه من الطريق.
+@RoutePage()
 class TravelAthkarScreen extends StatelessWidget {
   const TravelAthkarScreen({super.key});
 

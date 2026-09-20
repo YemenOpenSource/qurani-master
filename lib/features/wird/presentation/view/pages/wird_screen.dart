@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/extensions/request_state/request_state_sliver_extension.dart';
@@ -12,9 +13,30 @@ import 'package:quran_app/features/wird/presentation/view/widgets/wird/wird_coll
 import 'package:quran_app/features/wird/presentation/view/widgets/wird/wird_search_suggestion.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+/// ورد الصباح والمساء.
+///
+/// `auto_route` يشتقّ المسار من **باني واحد** فقط، وهو الباني الافتراضي هنا،
+/// فصار `WirdRoute` يقبل `isMorning` وحدها.
+///
+// TODO(routing): الباني `WirdScreen.custom` (عنوان + مسار أصل مخصّص) لا يولّد
+// له `auto_route` مسارًا. من يستدعيه اليوم — `main_thikr_screen.dart`
+// و`daily_wird_destination_resolver.dart` — يبني الودجت مباشرة. لنقله إلى
+// المسارات يلزم أحد أمرين: ودجت مستقلّة عليها `@RoutePage()` ثانية تلفّ
+// `WirdScreen.custom`، أو توسيع الباني الافتراضي ليقبل `titleOverride`
+// و`assetPath` و`filterByPeriod` كوسائط اختيارية. كلاهما يمسّ مواضع النداء،
+// فتُرك للقرار خارج هذه الشاشة.
+//
+// TODO(routing): `isMorning` وسيط مسار من نوع `bool`، و`auto_route` لا يفكّ
+// إلا 'true'/'false' (راجع `Parameters.optBool`)، فالمسار المولَّد هو
+// `/wird/true`. الروابط الإنجليزية `/wird/morning` و`/wird/evening` مُعرَّفة
+// في `wird_routes.dart` كـ `RedirectRoute`. لجعل `:period` وسيطًا نصّيًا
+// حقيقيًا يلزم تغيير نوع الوسيط، وهو تغيير يمسّ كل موضع نداء.
+@RoutePage()
 class WirdScreen extends StatelessWidget {
-  const WirdScreen({required this.isMorning, super.key})
-      : titleOverride = null,
+  const WirdScreen({
+    @PathParam('isMorning') required this.isMorning,
+    super.key,
+  })  : titleOverride = null,
         assetPath = JsonLoaderService.wirdsPath,
         filterByPeriod = true;
 

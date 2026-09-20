@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,10 @@ import 'package:quran_app/l10n/l10n.dart';
 /// كانت الشاشة تفتح فارغة (الجسم كان معطّلاً)، فأُعيد بناؤها على بيانات
 /// الـ bloc نفسها: شريط تقدّم وأزرار تحكّم، ثم قائمة نحيلة بكل مقطع وحجمه
 /// وزرّ تنزيله.
+// TODO(routing): `data` كائن غير مُصنَّف (dynamic) يصل من الشاشة السابقة،
+// فلا يمكن تمريره في مسار. الوجهة للدفع داخل التطبيق فقط، ولا تُفتح برابط
+// عميق حتى يُستبدَل `data` بمعرّف (id) أو برابط api تُحمَّل به السلسلة.
+@RoutePage(name: 'BaseAudioDetailRoute')
 class BaseAudioDetail extends StatefulWidget {
   const BaseAudioDetail({super.key, this.data});
 

@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
@@ -13,8 +15,28 @@ import 'package:quran_app/features/sabih/presentation/view/widgets/analytics/ana
 import 'package:quran_app/features/sabih/presentation/view/widgets/sabih_state_views.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
-class AnalyticsScreen extends StatefulWidget {
+/// تحليلات المسبحة.
+///
+/// كانت تُدفع ملفوفة بـ `BlocProvider.value` من ترويسة المسبحة. صار البلوك
+/// يُحلّ من `get_it` داخل [wrappedRoute] حتى يصمد المسار أمام الروابط العميقة.
+///
+// TODO(routing): `SabihBloc` مسجّل في `service_locator.dart` كـ
+// `registerFactory`، فهذه الشاشة تأخذ نسخة جديدة لا نسخة شاشة المسبحة.
+// هي تحمّل بياناتها بنفسها في `initState` عبر `GetAnalyticsDataEvent`، فتعمل
+// مستقلّة، لكن العدّادات لن تبقى متزامنة لحظيًا مع المسبحة كما كانت. تحتاج
+// المشاركة الحقيقية تسجيله `registerLazySingleton` في `core/` — خارج ملكية
+// هذه الميزة.
+@RoutePage()
+class AnalyticsScreen extends StatefulWidget implements AutoRouteWrapper {
   const AnalyticsScreen({super.key});
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider<SabihBloc>(
+      create: (_) => sl<SabihBloc>(),
+      child: this,
+    );
+  }
 
   @override
   State<AnalyticsScreen> createState() => _AnalyticsScreenState();

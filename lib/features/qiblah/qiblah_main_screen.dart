@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_qiblah/flutter_qiblah.dart';
@@ -18,6 +19,7 @@ part 'qiblah_main_screen_compass_part.dart';
 part 'qiblah_main_screen_widgets_part.dart';
 
 /// شاشة القبلة: البوصلة هي البطل، وما حولها سطور نحيلة لا تزاحمها.
+@RoutePage()
 class QiblahMainScreen extends StatefulWidget {
   const QiblahMainScreen({super.key});
 

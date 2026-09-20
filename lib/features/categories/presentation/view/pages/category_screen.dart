@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
@@ -19,6 +20,7 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كانت الشاشة بطاقات كبيرة بأشكال زخرفية تتنافس على النظر؛ صارت أيقونات
 /// صغيرة تحت عناوينها، والأرضية واحدة تفصلها خطوط شعرة.
+@RoutePage()
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,7 @@ import 'package:quran_app/features/setting/presentation/view/widgets/settings_sk
 import 'package:quran_app/l10n/l10n.dart';
 
 /// شاشة ودجات الشاشة الرئيسية: ما المتاح، وكيف يُضاف، والمزامنة اليدوية.
+@RoutePage()
 class HomeWidgetsScreen extends StatefulWidget {
   const HomeWidgetsScreen({super.key});
 

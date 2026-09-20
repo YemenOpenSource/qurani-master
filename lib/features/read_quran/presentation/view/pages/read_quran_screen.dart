@@ -1,11 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/bloc/theme/theme_bloc.dart';
 import 'package:quran_app/gen/assets.gen.dart';
 import 'package:quran_library/quran.dart';
 
+@RoutePage()
 class ReadQuranScreen extends StatefulWidget {
-  const ReadQuranScreen({super.key, this.page});
+  const ReadQuranScreen({super.key, @QueryParam('page') this.page});
   final int? page;
 
   @override

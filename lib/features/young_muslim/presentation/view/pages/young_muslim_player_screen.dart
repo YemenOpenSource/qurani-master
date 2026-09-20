@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
@@ -12,21 +14,46 @@ import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/home/presentation/view/widgets/home_section_header.dart';
 import 'package:quran_app/features/young_muslim/domain/entities/young_muslim_entities.dart';
 import 'package:quran_app/features/young_muslim/domain/repositories/young_muslim_repository.dart';
+import 'package:quran_app/features/young_muslim/presentation/bloc/young_muslim_bloc.dart';
 import 'package:quran_app/features/young_muslim/presentation/cubit/young_muslim_player_cubit.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/widgets/young_muslim_quiz_sheet.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/widgets/young_muslim_shared_widgets.dart';
+import 'package:quran_app/features/young_muslim/presentation/view/young_muslim_provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
 part 'young_muslim_player_screen_content.dart';
 
-class YoungMuslimPlayerScreen extends StatefulWidget {
+@RoutePage()
+class YoungMuslimPlayerScreen extends StatefulWidget
+    implements AutoRouteWrapper {
   const YoungMuslimPlayerScreen({
-    required this.videoId,
+    @PathParam('videoId') required this.videoId,
     super.key,
   });
 
   final String videoId;
+
+  // TODO(routing): neither `YoungMuslimRepository` nor `YoungMuslimBloc` is
+  // registered in `get_it` — `YoungMuslimProvider` still builds both by hand in
+  // its `initState`. This wrapper therefore throws until
+  // `lib/core/services/service_locator.dart` (or a new
+  // `lib/features/young_muslim/data/di/injection_container.dart`) registers:
+  //   * `YoungMuslimLocalDataSource`      (lazy singleton)
+  //   * `YoungMuslimAssetDataSource`      (lazy singleton)
+  //   * `YoungMuslimReminderService`      (notificationService + localDataSource)
+  //   * `YoungMuslimRepository` -> `YoungMuslimRepositoryImpl`  (lazy singleton)
+  //   * `YoungMuslimBloc`                 (lazy SINGLETON, not a factory — the
+  //     four young_muslim routes must share one bloc, and it needs
+  //     `..add(const YoungMuslimStarted())` on creation)
+  // Registrations are owned by the DI/service-locator task, so none is invented
+  // here.
+  @override
+  Widget wrappedRoute(BuildContext context) => YoungMuslimRouteScope(
+        repository: sl<YoungMuslimRepository>(),
+        bloc: sl<YoungMuslimBloc>(),
+        child: this,
+      );
 
   @override
   State<YoungMuslimPlayerScreen> createState() =>

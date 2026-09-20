@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,7 @@ import 'package:quran_app/l10n/l10n.dart';
 /// الاسم هو البطل: يُكتب بخطّ المصحف كبيرًا، والمعنى همسٌ تحته في سطر
 /// واحد. حُذفت الشارة التي كانت تكرّر عنوان الشاشة تحت كل اسم، ورقم
 /// الترتيب انزاح إلى الطرف صغيرًا حتى لا ينافس الاسم على النظر.
+@RoutePage()
 class AllhNameScreen extends StatefulWidget {
   const AllhNameScreen({super.key});
 

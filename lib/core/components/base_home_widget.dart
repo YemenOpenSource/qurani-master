@@ -82,7 +82,7 @@ class BaseHomeWidget extends StatelessWidget {
                         child: FittedBox(
                           child: IconButton(
                             onPressed: () {
-                              context.pop();
+                              Navigator.pop(context);
                             },
                             icon: const Icon(
                               Icons.arrow_back_ios_new_rounded,

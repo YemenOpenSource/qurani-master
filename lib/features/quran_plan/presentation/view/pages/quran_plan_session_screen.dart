@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,10 +23,11 @@ import 'package:quran_app/l10n/l10n.dart';
 /// كانت الشاشة أربع بطاقات فوق بعضها (حلقة تقدّم، ثلاثة مربّعات أرقام، بطاقة
 /// تحليل، ثم خطّ زمني ببطاقة لكل جلسة). صارت أقسامًا على أرضية واحدة تفصلها
 /// شعرة، والارتفاع محجوز لجلسة اليوم وحدها.
+@RoutePage()
 class QuranPlanSessionScreen extends StatefulWidget {
   const QuranPlanSessionScreen({
-    required this.planId,
-    this.title,
+    @PathParam('planId') required this.planId,
+    @QueryParam('title') this.title,
     super.key,
   });
 

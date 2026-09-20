@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/extensions/request_state/request_state_sliver_extension.dart';
@@ -16,6 +17,9 @@ import 'package:quran_app/features/categories/presentation/view/widgets/sheet_au
 import 'package:quran_app/l10n/l10n.dart';
 
 /// عناصر تصنيف واحد: بحث ثم صفوف نحيلة، كل صفّ كتاب أو مادة صوتية.
+// TODO(routing): `category` كائن `CategorySectionModel` كامل، فلا يُمرَّر في
+// مسار. الوجهة للدفع داخل التطبيق فقط حتى يُختصر الوسيط إلى معرّف (id).
+@RoutePage()
 class CategoryDetailOptionScreen extends StatefulWidget {
   const CategoryDetailOptionScreen({required this.category, super.key});
 

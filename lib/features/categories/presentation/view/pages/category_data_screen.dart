@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,11 +18,15 @@ import 'package:quran_app/features/categories/presentation/view/widgets/category
 import 'package:quran_app/l10n/l10n.dart';
 
 /// أبواب تصنيف واحد: بحث نحيل فوق قائمة صفوف تفصلها خطوط شعرة.
+// TODO(routing): الرابط (`url`) هو مصدر البيانات الوحيد للشاشة، وهو اليوم
+// يصل جاهزًا من الشاشة السابقة. فتحها برابط عميق يتطلّب تمريره في
+// `?url=` حتى تُشتقّ نقطة الـ api من `id` وحده.
+@RoutePage()
 class CategoryDataScreen extends StatefulWidget {
   const CategoryDataScreen({
-    required this.id,
-    required this.title,
-    required this.url,
+    @PathParam('id') required this.id,
+    @QueryParam('title') this.title = '',
+    @QueryParam('url') this.url = '',
     super.key,
   });
 

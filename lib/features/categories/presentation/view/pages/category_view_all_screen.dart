@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
@@ -12,6 +13,10 @@ import 'package:quran_app/features/categories/presentation/view/widgets/category
 import 'package:quran_app/l10n/l10n.dart';
 
 /// أبواب قسم واحد من المكتبة — صفوف نحيلة بلا بطاقات.
+// TODO(routing): `data` قائمة `SectionTypeModel` تُبنى من ملفّات json محليّة
+// في الشاشة السابقة، فلا تُمرَّر في مسار. الوجهة للدفع داخل التطبيق فقط حتى
+// يُختصر الوسيط إلى معرّف قسم (section id) تُقرأ به القائمة هنا.
+@RoutePage()
 class CategoryViewAllScreen extends StatelessWidget {
   const CategoryViewAllScreen({
     required this.data,

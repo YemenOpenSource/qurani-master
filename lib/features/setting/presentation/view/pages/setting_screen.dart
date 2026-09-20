@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,7 @@ import 'package:quran_app/src/core/update/app_update_service.dart';
 import 'package:quran_app/src/core/update/update_prompts.dart';
 
 /// شاشة الإعدادات: قائمة واحدة مقسّمة إلى مجموعات معنونة، بلا بطاقات.
+@RoutePage()
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
 

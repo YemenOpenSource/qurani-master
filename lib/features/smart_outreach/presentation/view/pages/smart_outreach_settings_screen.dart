@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,7 @@ import 'package:quran_app/features/smart_outreach/data/service/smart_outreach_se
 import 'package:quran_app/features/smart_outreach/presentation/view/widgets/smart_outreach_ui_kit.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+@RoutePage()
 class SmartOutreachSettingsScreen extends StatefulWidget {
   const SmartOutreachSettingsScreen({super.key});
 

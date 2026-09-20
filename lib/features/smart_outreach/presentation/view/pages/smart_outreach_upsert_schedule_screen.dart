@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
 import 'package:adhan/adhan.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,13 +32,36 @@ part 'smart_outreach_upsert_schedule_screen_sections_part.dart';
 part 'smart_outreach_upsert_schedule_screen_actions_part.dart';
 part 'smart_outreach_upsert_schedule_screen_widgets_part.dart';
 
-class SmartOutreachUpsertScheduleScreen extends StatefulWidget {
+@RoutePage()
+class SmartOutreachUpsertScheduleScreen extends StatefulWidget
+    implements AutoRouteWrapper {
   const SmartOutreachUpsertScheduleScreen({
     this.initialBundle,
     super.key,
   });
 
+  // TODO(routing): `initialBundle` is a non-serialisable in-memory object, so
+  // `SmartOutreachUpsertScheduleRoute` cannot be deep-linked in edit mode —
+  // only the `/outreach/schedule/new` (bundle == null) case survives a cold
+  // start. Narrow this to a `@PathParam('scheduleId') int?` and let the screen
+  // load the bundle from `SmartOutreachScheduleRepository` before exposing an
+  // edit deep link.
   final SmartOutreachScheduleBundle? initialBundle;
+
+  // TODO(routing): `SmartOutreachSchedulesBloc` is a `registerFactory` in
+  // `lib/core/services/service_locator.dart`, so this route builds its own
+  // instance instead of reusing the list's. The caller used to re-dispatch
+  // `LoadSmartOutreachSchedulesEvent` after the push returned; once the call
+  // site moves to `context.router.push`, that reload must be kept (or the
+  // registration promoted to `registerLazySingleton`). Registrations are owned
+  // by the DI/service-locator task, so nothing is changed here.
+  @override
+  Widget wrappedRoute(BuildContext context) =>
+      BlocProvider<SmartOutreachSchedulesBloc>(
+        create: (_) => sl<SmartOutreachSchedulesBloc>()
+          ..add(const LoadSmartOutreachSchedulesEvent()),
+        child: this,
+      );
 
   @override
   State<SmartOutreachUpsertScheduleScreen> createState() =>

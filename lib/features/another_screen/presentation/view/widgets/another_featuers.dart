@@ -142,8 +142,8 @@ class AnotherFeatures extends StatelessWidget {
           onOpenNearbyMosques: () {
             Navigator.of(sheetContext).pop();
             context.push(
-              const TravelPlacesMapScreen(
-                placeType: TravelerPlaceType.mosque,
+              TravelPlacesMapScreen(
+                placeTypeSlug: TravelerPlaceType.mosque.slug,
               ),
             );
           },
@@ -154,8 +154,8 @@ class AnotherFeatures extends StatelessWidget {
           onOpenHalalRestaurants: () {
             Navigator.of(sheetContext).pop();
             context.push(
-              const TravelPlacesMapScreen(
-                placeType: TravelerPlaceType.halalRestaurant,
+              TravelPlacesMapScreen(
+                placeTypeSlug: TravelerPlaceType.halalRestaurant.slug,
               ),
             );
           },

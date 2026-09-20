@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +18,7 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كانت شبكة أغلفة، وكل غلاف صورة واحدة مكرّرة من الإنترنت لكل الكتب — زينة
 /// لا تدلّ على شيء. صارت صفوفًا نحيلة يقرأ فيها العنوان مباشرة.
+@RoutePage()
 class BookScreen extends StatelessWidget {
   const BookScreen({super.key});
 

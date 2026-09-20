@@ -14,5 +14,27 @@
 	<array>
 		<string>group.com.tamaanina.app.widgets</string>
 	</array>
+	<!-- Universal Links. iOS fetches
+	     https://tamaneena.app/.well-known/apple-app-site-association and only
+	     opens these links in the app if it lists W77Q2VMT4P.com.tamaanina.app.
+
+	     Subdomains are NOT wildcarded — each host needs its own entry.
+	     console.tamaneena.app is deliberately omitted: the admin console
+	     should stay in the browser.
+
+	     While iterating you can append "?mode=developer" to a domain to skip
+	     Apple's CDN (which caches for up to 24h) and fetch straight from the
+	     server. It requires Developer Mode on the device and MUST be removed
+	     before submitting to the App Store.
+
+	     This file only takes effect if the Associated Domains capability is
+	     enabled on the Runner target in Xcode — creating the key by hand is
+	     not enough. Verify with:
+	       codesign -d --entitlements :- /path/to/Runner.app -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:tamaneena.app</string>
+		<string>applinks:www.tamaneena.app</string>
+	</array>
 </dict>
 </plist>

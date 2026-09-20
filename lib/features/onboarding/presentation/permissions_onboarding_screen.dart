@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ enum _Step { notifications, location }
 /// - «ليس الآن» ينتقل دون سؤال، فلا يُستهلك طلب iOS الوحيد على مستخدم متردّد.
 /// - صلاحية ممنوحة سلفًا (مستخدم قديم حدّث التطبيق) أو محجوبة نهائيًا تُتخطّى
 ///   خطوتها: لا فائدة من سؤال لن تعرضه المنصّة.
+@RoutePage()
 class PermissionsOnboardingScreen extends StatefulWidget {
   const PermissionsOnboardingScreen({super.key});
 

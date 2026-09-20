@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// كانت كل خطة بطاقة بتدرّج ودائرة زخرفية وظل. صارت صفًّا نحيلاً تفصله شعرة،
 /// والتقدّم خطّ رفيع تحت السطر لا حلقة ولا بطاقة.
+@RoutePage()
 class QuranPlanListScreen extends StatelessWidget {
   const QuranPlanListScreen({super.key});
 

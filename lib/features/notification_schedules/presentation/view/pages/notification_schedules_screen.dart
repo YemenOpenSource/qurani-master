@@ -1,4 +1,5 @@
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,12 +20,15 @@ import 'package:quran_app/features/setting/presentation/view/widgets/settings_sk
 import 'package:quran_app/l10n/l10n.dart';
 
 /// مواعيد إشعار واحد: ملخّص رقمي ثم قائمة صفوف نحيلة.
+@RoutePage()
 class NotificationSchedulesScreen extends StatelessWidget {
   const NotificationSchedulesScreen({
-    required this.notifKey,
+    @PathParam('notifKey') required this.notifKey,
     super.key,
   });
 
+  // TODO(routing): `.forKey` لا يُستدعى من أي مكان، و auto_route يولّد من
+  // المُنشئ الافتراضي وحده. يُحذف عند ترحيل مواضع الاستدعاء.
   const NotificationSchedulesScreen.forKey(this.notifKey, {super.key});
 
   final String notifKey;

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -14,6 +15,7 @@ import 'package:quran_app/features/traveler/presentation/view/widgets/flight_pra
 import 'package:quran_app/features/traveler/presentation/view/widgets/traveler_shell.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+@RoutePage()
 class FlightPrayerTimesScreen extends StatelessWidget {
   const FlightPrayerTimesScreen({super.key});
 

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/features/sabih/data/database/database_sabih_service.dart';
@@ -5,6 +6,10 @@ import 'package:quran_app/features/sabih/data/remote/sabih_repository_imp.dart';
 import 'package:quran_app/features/sabih/presentation/bloc/sabih_bloc.dart';
 import 'package:quran_app/features/sabih/presentation/view/pages/tasbeeh_screen.dart';
 
+// اسم المسار صريح: اسم الصنف لا يحتوي «Page» ولا «Screen»، و
+// replaceInRouteName استبدالٌ نصّي بلا احتياطي، فكان المولَّد يحمل اسم
+// الودجت نفسه ويتصادم معها في app_router.gr.dart.
+@RoutePage(name: 'TasbeehProviderRoute')
 class TasbeehProvider extends StatefulWidget {
   const TasbeehProvider({super.key});
 

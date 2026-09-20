@@ -29,7 +29,7 @@ class AppBarWidget extends StatelessWidget {
           IconButton(
             onPressed: onBack ??
                 () {
-                  context.pop();
+                  Navigator.pop(context);
                 },
             icon: AppIcon(AppIcons.backFor(context)),
           ),

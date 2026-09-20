@@ -32,6 +32,29 @@ extension TravelerPlaceTypeX on TravelerPlaceType {
         return 'Halal Restaurant';
     }
   }
+
+  /// المعرّف النصّي المستعمل في الروابط: `/travel/places/<slug>`.
+  ///
+  /// `auto_route` لا يفكّ قيم enum من المسار — الأنواع المقبولة هي
+  /// `String, int, double, num, bool, dynamic` فقط — فنمرّر النصّ ونحوّله هنا.
+  String get slug {
+    switch (this) {
+      case TravelerPlaceType.mosque:
+        return 'mosque';
+      case TravelerPlaceType.halalRestaurant:
+        return 'halal-restaurant';
+    }
+  }
+
+  /// يحوّل [slug] قادمًا من رابط إلى قيمة enum، و`null` إن كان غير معروف.
+  static TravelerPlaceType? fromSlug(String slug) {
+    for (final type in TravelerPlaceType.values) {
+      if (type.slug == slug) {
+        return type;
+      }
+    }
+    return null;
+  }
 }
 
 class TravelerPlace {

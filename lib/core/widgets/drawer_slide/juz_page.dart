@@ -145,8 +145,8 @@
 //                     context.read<ReadQuranBloc>().pageController.jumpToPage(
 //                           juz.page! - 1,
 //                         );
-//                     context.pop();
-//                     context.pop();
+//                     Navigator.pop(context);
+//                     Navigator.pop(context);
 //                     // quranCtrl.changeSurahListOnTap(juz.page);
 //                   },
 //                 ),

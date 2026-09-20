@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:quran_app/core/router/analytics_screen_names.dart';
 
 /// تشغيل Crashlytics و Analytics وربطهما بالتطبيق — في مكان واحد.
 ///
@@ -62,7 +63,15 @@ abstract final class FirebaseMonitoring {
       await crashlytics.setCrashlyticsCollectionEnabled(_collectionEnabled);
       await analytics.setAnalyticsCollectionEnabled(_collectionEnabled);
 
-      _navigatorObservers = [FirebaseAnalyticsObserver(analytics: analytics)];
+      // nameExtractor يعيد اشتقاق «XScreen» من اسم مسار auto_route «XRoute»،
+      // حتى لا تتغيّر أسماء الشاشات في لوحة التحليلات بعد الترحيل إلى
+      // auto_route وتنقطع التقارير التاريخية. انظر analytics_screen_names.dart.
+      _navigatorObservers = [
+        FirebaseAnalyticsObserver(
+          analytics: analytics,
+          nameExtractor: tamaneenaScreenNameExtractor,
+        ),
+      ];
 
       if (_collectionEnabled) {
         FlutterError.onError = crashlytics.recordFlutterFatalError;

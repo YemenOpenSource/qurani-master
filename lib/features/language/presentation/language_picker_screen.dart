@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,14 @@ import 'package:quran_app/l10n/l10n.dart';
 ///   الواجهة فورًا للمعاينة (العنوان وزرّ «متابعة» يظهران باللغة المختارة)،
 ///   ولا يُحفظ شيء حتى «متابعة».
 /// - [LanguagePickerScreen.settings]: من الإعدادات؛ الاختيار يُحفظ فورًا.
+@RoutePage()
 class LanguagePickerScreen extends StatelessWidget {
+  /// المُنشئ الافتراضي — منه يولّد auto_route صنف المسار.
+  ///
+  /// المُنشئان المسمّيان أدناه باقيان كما هما لمواضع الاستدعاء الحالية؛ هذا
+  /// المُنشئ يضيف وجهًا واحدًا بوسيط صريح دون أن يكسر أيًّا منهما.
+  const LanguagePickerScreen({super.key, this.isOnboarding = false});
+
   const LanguagePickerScreen.onboarding({super.key}) : isOnboarding = true;
 
   const LanguagePickerScreen.settings({super.key}) : isOnboarding = false;

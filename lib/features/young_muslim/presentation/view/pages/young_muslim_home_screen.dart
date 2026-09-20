@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
@@ -22,8 +24,31 @@ part 'young_muslim_home_screen_content.dart';
 part 'young_muslim_home_screen_rail_content.dart';
 part '../widgets/young_muslim_home_screen_search.dart';
 
-class YoungMuslimHomeScreen extends StatefulWidget {
+@RoutePage()
+class YoungMuslimHomeScreen extends StatefulWidget
+    implements AutoRouteWrapper {
   const YoungMuslimHomeScreen({super.key});
+
+  // TODO(routing): neither `YoungMuslimRepository` nor `YoungMuslimBloc` is
+  // registered in `get_it` — `YoungMuslimProvider` still builds both by hand in
+  // its `initState`. This wrapper therefore throws until
+  // `lib/core/services/service_locator.dart` (or a new
+  // `lib/features/young_muslim/data/di/injection_container.dart`) registers:
+  //   * `YoungMuslimLocalDataSource`      (lazy singleton)
+  //   * `YoungMuslimAssetDataSource`      (lazy singleton)
+  //   * `YoungMuslimReminderService`      (notificationService + localDataSource)
+  //   * `YoungMuslimRepository` -> `YoungMuslimRepositoryImpl`  (lazy singleton)
+  //   * `YoungMuslimBloc`                 (lazy SINGLETON, not a factory — the
+  //     four young_muslim routes must share one bloc, and it needs
+  //     `..add(const YoungMuslimStarted())` on creation)
+  // Registrations are owned by the DI/service-locator task, so none is invented
+  // here.
+  @override
+  Widget wrappedRoute(BuildContext context) => YoungMuslimRouteScope(
+        repository: sl<YoungMuslimRepository>(),
+        bloc: sl<YoungMuslimBloc>(),
+        child: this,
+      );
 
   @override
   State<YoungMuslimHomeScreen> createState() => _YoungMuslimHomeScreenState();

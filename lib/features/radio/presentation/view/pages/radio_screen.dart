@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ import 'package:quran_app/l10n/l10n.dart';
 /// القائمة والقرص **أداةٌ واحدة**: النقر على أي صفّ يُدير القرص إليه، فيبقى
 /// للمستخدم إحساسٌ واحد بالمكان بدل واجهتين منفصلتين. وهذا ما يجعل التصفّح
 /// السريع (القرص) والوصول المباشر (البحث والقائمة) يعيشان معًا بلا تعارض.
+@RoutePage()
 class RadioScreen extends StatefulWidget {
   const RadioScreen({super.key});
 

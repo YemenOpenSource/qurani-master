@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
@@ -13,10 +14,11 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// اسم الصلاة هو العنصر المرتفع الوحيد، وما حوله سطور نحيلة على أرضية
 /// الصفحة، وفعلٌ واحد ذهبي في الأسفل.
+@RoutePage()
 class PrayerAthanAlertScreen extends StatelessWidget {
   const PrayerAthanAlertScreen({
-    required this.prayerName,
-    this.prayerTimeLabel,
+    @PathParam('prayerName') required this.prayerName,
+    @QueryParam('time') this.prayerTimeLabel,
     super.key,
   });
 

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
@@ -25,8 +27,21 @@ part 'prayer_time_settings_screen_footer_part.dart';
 
 /// إعدادات أوقات الصلاة: قسمان من صفوف نحيلة على أرضية الصفحة،
 /// وزرّ حفظ واحد ذهبي في آخر الصفحة.
-class PrayerTimeSettingsScreen extends StatefulWidget {
+@RoutePage()
+class PrayerTimeSettingsScreen extends StatefulWidget
+    implements AutoRouteWrapper {
   const PrayerTimeSettingsScreen({super.key});
+
+  // TODO(routing): PrayerTimeBloc غير مسجَّل في service_locator.dart، فهو
+  // اليوم يُنشأ في MultiBlocProvider داخل main_view.dart. لا بد من تسجيله
+  // singleton (لا factory) قبل أن يعمل هذا المسار: الشاشة ترسل
+  // PrayerTimeCalculationSettingsChanged وتتوقّع أن تسمعه نفس نسخة الـ bloc
+  // التي تقرأها شاشة المواقيت.
+  @override
+  Widget wrappedRoute(BuildContext context) => BlocProvider<PrayerTimeBloc>(
+        create: (_) => sl<PrayerTimeBloc>(),
+        child: this,
+      );
 
   @override
   State<PrayerTimeSettingsScreen> createState() =>

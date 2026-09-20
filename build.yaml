@@ -1,0 +1,26 @@
+# Build configuration for code generators.
+#
+# `generate_for` is scoped deliberately. The project has ~700 Dart files and the
+# bulk of them are generated assets (`lib/gen`) and localizations (`lib/l10n`)
+# that can never contain a `@RoutePage`. Scanning them on every incremental
+# build costs time for nothing.
+#
+# The scope still covers ALL of `lib/features` and `lib/core`, so adding a new
+# screen anywhere under those does not need a change here. If you ever put a
+# `@RoutePage` outside them, add its path below or the route will silently not
+# be generated.
+
+targets:
+  $default:
+    builders:
+      # Scans widgets annotated with @RoutePage().
+      auto_route_generator:auto_route_generator:
+        generate_for:
+          - lib/features/**
+          - lib/core/**
+          - lib/main_view.dart
+
+      # Emits app_router.gr.dart next to the @AutoRouterConfig class.
+      auto_route_generator:auto_router_generator:
+        generate_for:
+          - lib/core/router/app_router.dart

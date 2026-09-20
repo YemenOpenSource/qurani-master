@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/components/shimmer_widget.dart';
@@ -16,6 +17,7 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// عدد التكرار هو ما يبحث عنه القارئ قبل أي شيء، فصار يُقرأ من طرف الصفّ
 /// مباشرة بدل أن يختبئ في شارة داخل بطاقة.
+@RoutePage()
 class RuqiaShareiaScreen extends StatefulWidget {
   const RuqiaShareiaScreen({super.key});
 
