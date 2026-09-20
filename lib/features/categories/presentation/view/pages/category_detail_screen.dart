@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/extensions/request_state/request_state_sliver_extension.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/download_service.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/services/url_launcher_service.dart';
@@ -12,7 +13,6 @@ import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/core/widgets/custom_video_player.dart';
-import 'package:quran_app/features/books/presentation/view/pages/read_book.dart';
 import 'package:quran_app/features/categories/data/model/category_video_model.dart';
 import 'package:quran_app/features/categories/data/remote/category_repository_imp.dart';
 import 'package:quran_app/features/categories/presentation/bloc/category_bloc.dart';
@@ -205,7 +205,7 @@ class _AttachmentRowState extends State<_AttachmentRow> {
 
     switch (widget.data.extensionType) {
       case 'PDF':
-        context.push(ReadBook(url: url));
+        context.router.push(ReadBookRoute(url: url));
       case 'MP4':
         await context.showBottomSheet(child: CustomVideoPlayer(url: url));
       case 'YOUTUBE':

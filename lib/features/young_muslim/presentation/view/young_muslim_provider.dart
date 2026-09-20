@@ -1,21 +1,14 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quran_app/core/notification/notification_service.dart';
 import 'package:quran_app/core/services/service_locator.dart';
-import 'package:quran_app/features/young_muslim/data/data_sources/young_muslim_asset_data_source.dart';
-import 'package:quran_app/features/young_muslim/data/data_sources/young_muslim_local_data_source.dart';
-import 'package:quran_app/features/young_muslim/data/repositories/young_muslim_repository_impl.dart';
-import 'package:quran_app/features/young_muslim/data/services/young_muslim_reminder_service.dart';
 import 'package:quran_app/features/young_muslim/domain/repositories/young_muslim_repository.dart';
 import 'package:quran_app/features/young_muslim/presentation/bloc/young_muslim_bloc.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/pages/young_muslim_home_screen.dart';
 
 /// نقطة الدخول لقسم «المسلم الصغير».
 ///
-/// تبني المستودع والـbloc بنفسها ثم تغلّف [YoungMuslimHomeScreen] بـ
+/// تحلّ المستودع والـbloc من `get_it` ثم تغلّف [YoungMuslimHomeScreen] بـ
 /// [YoungMuslimRouteScope]. هي المسار المعلَن على `/young-muslim`، واسم مساره
 /// المولَّد `YoungMuslimProviderRoute` هو ما تتوقّعه
 /// `lib/core/router/analytics_screen_names.dart`.
@@ -23,44 +16,17 @@ import 'package:quran_app/features/young_muslim/presentation/view/pages/young_mu
 // replaceInRouteName استبدالٌ نصّي بلا احتياطي، فكان المولَّد يحمل اسم
 // الودجت نفسه ويتصادم معها في app_router.gr.dart.
 @RoutePage(name: 'YoungMuslimProviderRoute')
-class YoungMuslimProvider extends StatefulWidget {
+class YoungMuslimProvider extends StatelessWidget {
   const YoungMuslimProvider({super.key});
 
-  @override
-  State<YoungMuslimProvider> createState() => _YoungMuslimProviderState();
-}
-
-class _YoungMuslimProviderState extends State<YoungMuslimProvider> {
-  late final YoungMuslimRepository _repository;
-  late final YoungMuslimBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    final localDataSource = YoungMuslimLocalDataSource();
-    _repository = YoungMuslimRepositoryImpl(
-      assetDataSource: YoungMuslimAssetDataSource(),
-      localDataSource: localDataSource,
-      reminderService: YoungMuslimReminderService(
-        notificationService: sl<NotificationService>(),
-        localDataSource: localDataSource,
-      ),
-    );
-    _bloc = YoungMuslimBloc(repository: _repository)
-      ..add(const YoungMuslimStarted());
-  }
-
-  @override
-  void dispose() {
-    unawaited(_bloc.close());
-    super.dispose();
-  }
-
+  // لا إغلاق هنا: `YoungMuslimBloc` مُسجّل كـ lazy singleton في `get_it`
+  // وتتشاركه مسارات القسم الأربعة؛ إغلاقه عند مغادرة هذه الشاشة
+  // يُعطِل بقيّة المسارات وكلّ عودة إلى القسم.
   @override
   Widget build(BuildContext context) {
     return YoungMuslimRouteScope(
-      repository: _repository,
-      bloc: _bloc,
+      repository: sl<YoungMuslimRepository>(),
+      bloc: sl<YoungMuslimBloc>(),
       child: const YoungMuslimHomeScreen(),
     );
   }
@@ -77,17 +43,6 @@ class YoungMuslimRouteScope extends StatelessWidget {
   final YoungMuslimRepository repository;
   final YoungMuslimBloc bloc;
   final Widget child;
-
-  static Widget inherit({
-    required BuildContext context,
-    required Widget child,
-  }) {
-    return YoungMuslimRouteScope(
-      repository: context.read<YoungMuslimRepository>(),
-      bloc: context.read<YoungMuslimBloc>(),
-      child: child,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

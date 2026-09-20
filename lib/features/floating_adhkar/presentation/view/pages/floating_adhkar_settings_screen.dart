@@ -21,15 +21,6 @@ import 'package:quran_app/l10n/l10n.dart';
 ///
 /// ثلاثة صناديق ملوّنة صارت: مفتاحًا واحدًا مرتفعًا، ثم أقسامًا تفصلها
 /// خطوط شعرة. رقائق الاختيار تمتلئ ذهبًا عند الاختيار بدل تبديل لونها.
-// TODO(routing): نسختان من المشكلة نفسها:
-// (1) `FloatingAdhkarBloc` مسجّل كـ `registerFactory`، فهذه الشاشة تأخذ نسخة
-//     جديدة بدل نسخة `FloatingAdhkarProvider`.
-// (2) `initState` يقرأ `state.settings` فورًا ليبني `_draft`، و`Load` غير
-//     متزامن، فالحالة وقتها فارغة ويقع الاختيار على `defaults()` — وكان قبل
-//     الترحيل يجد الإعدادات محمّلة في نسخة الأب.
-// الحلّ الصحيح تسجيل البلوك `registerLazySingleton` في `injection_container`
-// الخاص بالميزة أو جعل `_draft` يتزامن مع أول حالة محمَّلة. كلاهما تغيير
-// سلوك، فلم يُتّخذ هنا.
 @RoutePage()
 class FloatingAdhkarSettingsScreen extends StatefulWidget
     implements AutoRouteWrapper {

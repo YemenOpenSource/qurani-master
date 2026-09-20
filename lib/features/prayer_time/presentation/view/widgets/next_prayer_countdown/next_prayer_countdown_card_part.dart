@@ -178,7 +178,7 @@ class _NextPrayerCountdownCardState extends State<_NextPrayerCountdownCard>
               '—',
           countdownText:
               _buildCountdownLine(l10n, nextPrayerLabel, safeRemaining),
-          onSettingsTap: () => context.push(const SettingScreen()),
+          onSettingsTap: () => context.router.push(const SettingRoute()),
           notice: widget.notice,
         ),
         _PrayerBoard(
@@ -187,7 +187,7 @@ class _NextPrayerCountdownCardState extends State<_NextPrayerCountdownCard>
           gregorianText: _formatGregorian(context.localeCode, locationNow),
           windowProgress: windowProgress,
           remainingText: _formatShortRemaining(l10n, safeRemaining),
-          onOpenAll: () => context.push(const PrayerTimeScreen()),
+          onOpenAll: () => context.router.push(const PrayerTimeRoute()),
         ),
         const _QuickActionsPanel(),
       ],

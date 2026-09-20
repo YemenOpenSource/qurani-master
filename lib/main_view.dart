@@ -1,30 +1,28 @@
 import 'dart:async';
 
 import 'package:adaptive_platform_ui/adaptive_platform_ui.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/bloc/locale/locale_cubit.dart';
 import 'package:quran_app/core/bloc/base/base_bloc.dart';
 import 'package:quran_app/core/bloc/connectivity/connectivity_bloc.dart';
 import 'package:quran_app/core/bloc/device_sync/device_sync_bloc.dart';
 import 'package:quran_app/core/bloc/theme/theme_bloc.dart';
+import 'package:quran_app/core/router/app_router.dart';
 import 'package:quran_app/core/device_sync/data/device_sync_repository.dart';
-import 'package:quran_app/core/extensions/theme_extensions.dart';
 import 'package:quran_app/core/failure/request_state.dart';
 import 'package:quran_app/core/notification/bloc/notification_bloc.dart';
 import 'package:quran_app/core/services/firebase_monitoring.dart';
 import 'package:quran_app/core/services/navigation_service.dart';
 import 'package:quran_app/core/services/service_locator.dart';
-import 'package:quran_app/core/shared/export/export-shared.dart';
 import 'package:quran_app/core/util/dark_theme.dart';
 import 'package:quran_app/core/util/exit_alert.dialog.dart';
 import 'package:quran_app/core/util/light_theme.dart';
 import 'package:quran_app/features/daily_wird/data/repo/daily_wird_repository.dart';
 import 'package:quran_app/features/home/presentation/bloc/random_ayah_bloc.dart';
-import 'package:quran_app/features/home/presentation/view/pages/home_screen.dart';
 import 'package:quran_app/features/home_widgets/presentation/home_widget_click_router.dart';
 import 'package:quran_app/features/language/presentation/language_picker_screen.dart';
 import 'package:quran_app/features/onboarding/presentation/onboarding_cubit.dart';
@@ -40,8 +38,56 @@ import 'package:quran_app/src/core/update/app_update_cubit.dart';
 import 'package:quran_app/src/core/update/app_update_service.dart';
 import 'package:quran_app/src/core/update/update_prompts.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  /// الموجّه يُنشأ مرّة واحدة ويُحفظ كحقل.
+  ///
+  /// إنشاؤه داخل `build` يعيد بناء المكدّس كلّه في كل إطار — وهو الفخّ الأوّل
+  /// الذي يحذّر منه توثيق auto_route.
+  ///
+  /// يستلم `NavigationService.navigatorKey` نفسه الذي كان على `MaterialApp`،
+  /// فيبقى كل ما يعتمد عليه يعمل — تهيئة `FToast` في `BaseBloc` مثلًا.
+  late final AppRouter _appRouter = AppRouter(
+    navigatorKey: NavigationService.navigatorKey,
+  );
+
+  late final RouterConfig<UrlState> _routerConfig = _appRouter.config(
+    // يسجّل كل شاشة يُنتقل إليها في Analytics باسم مسارها.
+    navigatorObservers: () => FirebaseMonitoring.navigatorObservers,
+    deepLinkTransformer: _transformDeepLink,
+  );
+
+  /// يُعالج الرابط الخام قبل مطابقته بالمسارات.
+  ///
+  /// منذ auto_route 8 لم تعد الروابط بلا مضيف تُعالَج تلقائيًا: Flutter يقرأ
+  /// `tamaneena://app/quran` على أن المضيف `app` والمسار `/quran`، فنعيد ضمّ
+  /// المضيف إلى أوّل المسار. وروابط لوحة التحكّم لا تخصّ التطبيق فتُردّ إلى
+  /// الرئيسية بدل أن تفتح شاشة فارغة.
+  static Future<Uri> _transformDeepLink(Uri uri) async {
+    if (uri.host == 'console.tamaneena.app') {
+      return Uri.parse('/');
+    }
+
+    if (uri.scheme == 'tamaneena' && uri.host.isNotEmpty) {
+      if (uri.host == 'widget') {
+        // ودجت الشاشة الرئيسية تصل عبر قناة home_widget لا عبر الموجّه.
+        return Uri.parse('/');
+      }
+      return uri.replace(
+        scheme: 'https',
+        host: 'tamaneena.app',
+        path: '/${uri.host}${uri.path}',
+      );
+    }
+
+    return uri;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,14 +188,13 @@ class MyApp extends StatelessWidget {
               return ScreenUtilInit(
                 minTextAdapt: true,
                 splitScreenMode: true,
-                builder: (_, child) => MaterialApp(
+                builder: (_, child) => MaterialApp.router(
                   // اللغة من LocaleCubit وحده. اتّجاه الواجهة (يمين/يسار)
                   // يتبعها تلقائيًا عبر GlobalWidgetsLocalizations.
                   locale: localeState.locale,
                   localizationsDelegates: L10n.localizationsDelegates,
                   supportedLocales: L10n.supportedLocales,
-                  onGenerateRoute: RouterGenerator.getRoute,
-                  initialRoute: RoutesManager.main,
+                  routerConfig: _routerConfig,
                   // // darkTheme: getDarkMode(),
                   // darkTheme: context.themeApp,
                   // theme: getLightMode(),
@@ -165,23 +210,28 @@ class MyApp extends StatelessWidget {
                     reverseCurve: Curves.decelerate,
                     reverseDuration: Duration(milliseconds: 300),
                   ),
-                  navigatorKey: NavigationService.navigatorKey,
-                  // يسجّل كل شاشة يُنتقل إليها في Analytics باسم مسارها.
-                  navigatorObservers: FirebaseMonitoring.navigatorObservers,
                   debugShowCheckedModeBanner: false,
                   builder: (context, child) {
-                    return DevicePreview.appBuilder(
-                      context,
-                      child ?? const SizedBox.shrink(),
-                    );
-                  },
+                    // أوّل فتح: اللغة، ثم الإشعارات والموقع — مرّة واحدة لكلٍّ.
+                    //
+                    // البوّابة هنا لا داخل جدول المسارات: التهيئة ليست وجهةً
+                    // يُنتقل إليها بل حاجزٌ يُعبر مرّة. وهذا يجعل الرابط
+                    // العميق الواصل أثناء التهيئة ينتظر خلف الحاجز — الموجّه
+                    // يكون قد وصل إليه فعلًا — فيظهر فور انتهائها بدل أن
+                    // يضيع.
+                    final Widget content;
+                    if (!localeState.confirmed) {
+                      content = const LanguagePickerScreen(isOnboarding: true);
+                    } else if (!permissionsDone) {
+                      content = const PermissionsOnboardingScreen();
+                    } else {
+                      content = _AppShell(
+                        child: child ?? const SizedBox.shrink(),
+                      );
+                    }
 
-                  // أوّل فتح: اللغة، ثم الإشعارات والموقع — مرّة واحدة لكلٍّ.
-                  home: !localeState.confirmed
-                      ? const LanguagePickerScreen.onboarding()
-                      : !permissionsDone
-                          ? const PermissionsOnboardingScreen()
-                          : const _App(),
+                    return DevicePreview.appBuilder(context, content);
+                  },
                 ),
               );
             },
@@ -192,14 +242,24 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class _App extends StatefulWidget {
-  const _App();
+/// الغلاف الدائم حول مخرجات الموجّه.
+///
+/// كان اسمه `_App` وكان هو **الشاشة الرئيسية نفسها**: يرسم
+/// `Scaffold(body: HomeScreenNew())`. بعد الترحيل صارت الرئيسية مسارًا
+/// (`HomeRoute`)، فبقي هنا ما يجب أن يعيش فوق المكدّس كلّه ولا يُعاد بناؤه مع
+/// كل انتقال: مراقبة دورة حياة التطبيق، فحص التحديثات، تأكيد الخروج، وربط
+/// موجّهَي الإشعار والودجت.
+class _AppShell extends StatefulWidget {
+  const _AppShell({required this.child});
+
+  /// المكدّس الذي يبنيه الموجّه.
+  final Widget child;
 
   @override
-  State<_App> createState() => _AppState();
+  State<_AppShell> createState() => _AppShellState();
 }
 
-class _AppState extends State<_App> with WidgetsBindingObserver {
+class _AppShellState extends State<_AppShell> with WidgetsBindingObserver {
   /// هل تنبيه تحديث iOS معروض الآن؟
   ///
   /// الفحص صار يجري عند الرجوع للتطبيق أيضًا، فلو ترك المستخدم التنبيه مفتوحًا
@@ -270,20 +330,19 @@ class _AppState extends State<_App> with WidgetsBindingObserver {
     final scaffold = PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, res) async {
-        showMyAlert(context: context);
+        if (didPop) {
+          return;
+        }
+
+        // زرّ الرجوع يخدم حالتين: إغلاق الشاشة الحالية، أو الخروج من التطبيق
+        // حين لا يبقى ما يُغلق. نسأل الموجّه أوّلًا — و`maybePop` هو المهذّب
+        // الذي يحترم `PopScope` داخل الشاشات — فإن لم يبقَ شيء نعرض التأكيد.
+        final popped = await context.router.maybePop();
+        if (!popped && context.mounted) {
+          showMyAlert(context: context);
+        }
       },
-      // child: ,
-      child: BlocBuilder<BaseBloc, BaseState>(
-        builder: (context, state) {
-          return Scaffold(
-            // أرضية الصفحة نفسها، لا أرضية الثيم العامة: الفارق بينهما كان
-            // يظهر عند شدّ التمرير وفي زوايا المشهد، فيبدو المحتوى طبقة
-            // موضوعة فوق لون آخر بدل أن يكون هو الشاشة.
-            backgroundColor: AppSkin.of(context).ground,
-            body: const HomeScreenNew(),
-          );
-        },
-      ),
+      child: widget.child,
     );
 
     return BlocListener<AppUpdateCubit, AppUpdateStatus>(

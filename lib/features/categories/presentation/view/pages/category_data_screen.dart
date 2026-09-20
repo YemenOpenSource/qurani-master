@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/extensions/request_state_extension.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
-import 'package:quran_app/features/audios/presentation/view/pages/base_audio_deatil.dart';
 import 'package:quran_app/features/categories/data/model/category_section_model.dart';
 import 'package:quran_app/features/categories/data/model/category_video_model.dart';
 import 'package:quran_app/features/categories/data/remote/category_repository_imp.dart';
 import 'package:quran_app/features/categories/presentation/bloc/category_bloc.dart';
-import 'package:quran_app/features/categories/presentation/view/pages/category_detail_screen.dart';
 import 'package:quran_app/features/categories/presentation/view/widgets/category_skin_widgets.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -118,8 +116,8 @@ class _CategoryDataScreenState extends State<CategoryDataScreen> {
 
   void _onTap(CategorySectionModel allData, BuildContext context) {
     if (allData.dataType == 'multicategories') {
-      context.push(
-        CategoryDataScreen(
+      context.router.push(
+        CategoryDataRoute(
           id: allData.id ?? 0,
           title: allData.title ?? widget.title,
           url: allData.apiUrl,
@@ -130,10 +128,10 @@ class _CategoryDataScreenState extends State<CategoryDataScreen> {
 
     if (allData.dataType != 'category') {
       if (allData.dataType == 'quran') {
-        context.push(BaseAudioDetail(data: allData));
+        context.router.push(BaseAudioDetailRoute(data: allData));
       } else {
-        context.push(
-          CategoryDetailScreen(
+        context.router.push(
+          CategoryDetailRoute(
             category: CategoryDetailModel(
               apiUrl: allData.apiUrl,
               title: allData.title,
@@ -144,8 +142,8 @@ class _CategoryDataScreenState extends State<CategoryDataScreen> {
       return;
     }
 
-    context.push(
-      CategoryDataScreen(
+    context.router.push(
+      CategoryDataRoute(
         id: allData.id ?? 0,
         title: widget.title,
         url: allData.apiUrl,

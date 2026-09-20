@@ -19,9 +19,11 @@ import 'package:quran_app/features/daily_wird/data/di/injection_container.dart';
 import 'package:quran_app/features/floating_adhkar/data/di/injection_container.dart';
 import 'package:quran_app/features/home/data/di/injection_container.dart';
 import 'package:quran_app/features/notification_schedules/data/repo/notification_schedules_repo.dart';
+import 'package:quran_app/features/prayer_time/data/database/database_coordinates_service.dart';
 import 'package:quran_app/features/prayer_time/data/remote/prayer_time_repo.dart';
 import 'package:quran_app/features/prayer_time/data/service/athan_alarm_notification_router_service.dart';
 import 'package:quran_app/features/prayer_time/data/service/athan_alarm_payload_service.dart';
+import 'package:quran_app/features/prayer_time/presentation/bloc/prayer_time_bloc.dart';
 import 'package:quran_app/features/quran_audio/data/di/injection_container.dart';
 import 'package:quran_app/features/quran_audio/data/remote/quran_audio_player_repo.dart';
 import 'package:quran_app/features/quran_plan/data/di/injection_container.dart';
@@ -39,6 +41,7 @@ import 'package:quran_app/features/smart_outreach/data/service/smart_outreach_na
 import 'package:quran_app/features/smart_outreach/data/service/smart_outreach_settings_store.dart';
 import 'package:quran_app/features/smart_outreach/data/service/smart_outreach_validation_service.dart';
 import 'package:quran_app/features/smart_outreach/presentation/bloc/smart_outreach_schedules_bloc.dart';
+import 'package:quran_app/features/young_muslim/data/di/injection_container.dart';
 
 final sl = GetIt.instance;
 
@@ -172,9 +175,23 @@ Future<void> setupServiceLocator() async {
 
     // ─────────────────────── BLOC ───────────────────────
     // ..registerFactory<BookmarkBloc>(() => BookmarkBloc(repository: sl()))
-    ..registerFactory<SabihBloc>(() => SabihBloc(repository: sl()))
-    ..registerFactory<SmartOutreachSchedulesBloc>(
+    // singleton لا factory: الشاشات المرتبطة تتشارك الحالة نفسها. كانت
+    // تُمرَّر بينها عبر `BlocProvider.value`، وبعد الترحيل صار كل مسار يطلبها
+    // من `get_it`. لو بقيت factory لفتحت كل شاشة نسخةً فارغة ولما عاد أي
+    // تعديل إلى الشاشة التي استدعتها — عطلٌ صامت لا يظهر كخطأ.
+    ..registerLazySingleton<SabihBloc>(() => SabihBloc(repository: sl()))
+    ..registerLazySingleton<SmartOutreachSchedulesBloc>(
       () => SmartOutreachSchedulesBloc(sl.get()),
+    )
+    // كان يُنشأ في `MultiBlocProvider` فوق `MaterialApp`، وهو موضع لا يصله
+    // مسارٌ يُفتح من رابط عميق. وهو singleton لأن شاشة الإعدادات ترسل
+    // `PrayerTimeCalculationSettingsChanged` وتتوقّع النسخة التي تقرأها شاشة
+    // الأوقات؛ نسخةٌ ثانية تعني إعدادًا يُحفظ ولا يسري.
+    ..registerLazySingleton<PrayerTimeBloc>(
+      () => PrayerTimeBloc(
+        prayerTimeService: sl<AdhanPrayerTimeService>(),
+        coordinatesService: DatabaseCoordinatesService(),
+      ),
     );
   // ..registerFactory<QuranAudioBloc>(
   //   () => QuranAudioBloc(quranAudioPlayerRepo: sl()),
@@ -182,6 +199,9 @@ Future<void> setupServiceLocator() async {
 
   // ─────────────────────── QURAN PLAN ───────────────────────
   await registerQuranPlanDependencies(sl);
+
+  // ─────────────────────── YOUNG MUSLIM ───────────────────────
+  await registerYoungMuslimDependencies(sl);
 }
 
 // Future<void> _initDatabaseClient() async =>

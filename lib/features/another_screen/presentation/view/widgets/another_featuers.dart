@@ -1,26 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
-import 'package:quran_app/features/allh_name/presentation/view/pages/allh_name_screen.dart';
-import 'package:quran_app/features/another_screen/presentation/view/pages/husin_almuslim_screen.dart';
-import 'package:quran_app/features/another_screen/presentation/view/widgets/surah_and_detail_screen.dart';
-import 'package:quran_app/features/daily_wird/presentation/view/pages/daily_wird_screen.dart';
-import 'package:quran_app/features/floating_adhkar/presentation/view/floating_adhkar_provider.dart';
-import 'package:quran_app/features/hadith_40/presentation/view/pages/hadith_40_screen.dart';
-import 'package:quran_app/features/home_widgets/presentation/home_widgets_screen.dart';
-import 'package:quran_app/features/my_adia/presentation/view/my_doa_provider.dart';
-import 'package:quran_app/features/quran_plan/presentation/view/pages/quran_plan_list_screen.dart';
-import 'package:quran_app/features/radio/presentation/view/pages/radio_screen.dart';
-import 'package:quran_app/features/sabih/presentation/view/tasbeeh_provider.dart';
-import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_outreach_schedules_screen.dart';
 import 'package:quran_app/features/traveler/data/models/traveler_place.dart';
-import 'package:quran_app/features/traveler/presentation/view/pages/flight_prayer_times_screen.dart';
-import 'package:quran_app/features/traveler/presentation/view/pages/travel_athkar_screen.dart';
-import 'package:quran_app/features/traveler/presentation/view/pages/travel_places_map_screen.dart';
 import 'package:quran_app/features/traveler/presentation/view/widgets/traveler_options_sheet.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -36,7 +22,7 @@ class AnotherFeatures extends StatelessWidget {
         label: context.l10n.anotherScreenDailyWird,
         subtitle: context.l10n.anotherScreenDailyWirdSubtitle,
         icon: AppIcons.dailyWird,
-        onTap: () => context.push(const DailyWirdScreen()),
+        onTap: () => context.router.push(const DailyWirdRoute()),
       );
 
   List<_FeatureGroup> _groups(BuildContext context) {
@@ -49,25 +35,27 @@ class AnotherFeatures extends StatelessWidget {
             label: l10n.anotherScreenKhatmaPlans,
             subtitle: l10n.anotherScreenKhatmaPlansSubtitle,
             icon: AppIcons.quran,
-            onTap: () => context.push(const QuranPlanListScreen()),
+            onTap: () => context.router.push(const QuranPlanListRoute()),
           ),
           _FeatureShortcut(
             label: l10n.sabihTitle,
             subtitle: l10n.anotherScreenTasbihSubtitle,
             icon: AppIcons.tasbih,
-            onTap: () => context.push(const TasbeehProvider()),
+            onTap: () => context.router.push(const TasbeehProviderRoute()),
           ),
           _FeatureShortcut(
             label: l10n.floatingAdhkarTitle,
             subtitle: l10n.anotherScreenFloatingAdhkarSubtitle,
             icon: AppIcons.focus,
-            onTap: () => context.push(const FloatingAdhkarProvider()),
+            onTap: () =>
+                context.router.push(const FloatingAdhkarProviderRoute()),
           ),
           _FeatureShortcut(
             label: l10n.anotherScreenFajrCompanion,
             subtitle: l10n.anotherScreenFajrCompanionSubtitle,
             icon: AppIcons.phone,
-            onTap: () => context.push(const SmartOutreachSchedulesScreen()),
+            onTap: () =>
+                context.router.push(const SmartOutreachSchedulesRoute()),
           ),
         ],
       ),
@@ -78,25 +66,25 @@ class AnotherFeatures extends StatelessWidget {
             label: l10n.anotherScreenSurahEncyclopedia,
             subtitle: l10n.anotherScreenSurahEncyclopediaSubtitle,
             icon: AppIcons.quran,
-            onTap: () => context.push(const SurahWithAllDetailScreen()),
+            onTap: () => context.router.push(const SurahWithAllDetailRoute()),
           ),
           _FeatureShortcut(
             label: l10n.anotherScreenNawawi40,
             subtitle: l10n.anotherScreenNawawi40Subtitle,
             icon: AppIcons.book,
-            onTap: () => context.push(const Hadith40Screen()),
+            onTap: () => context.router.push(const Hadith40Route()),
           ),
           _FeatureShortcut(
             label: l10n.anotherScreenNamesOfAllah,
             subtitle: l10n.anotherScreenNamesOfAllahSubtitle,
             icon: AppIcons.allah,
-            onTap: () => context.push(const AllhNameScreen()),
+            onTap: () => context.router.push(const AllhNameRoute()),
           ),
           _FeatureShortcut(
             label: l10n.anotherScreenRadio,
             subtitle: l10n.anotherScreenRadioSubtitle,
             icon: AppIcons.radio,
-            onTap: () => context.push(const RadioScreen()),
+            onTap: () => context.router.push(const RadioRoute()),
           ),
         ],
       ),
@@ -107,13 +95,13 @@ class AnotherFeatures extends StatelessWidget {
             label: l10n.anotherScreenHisnMuslim,
             subtitle: l10n.anotherScreenHisnMuslimSubtitle,
             icon: AppIcons.bookOpen,
-            onTap: () => context.push(const HisnMuslimScreen()),
+            onTap: () => context.router.push(const HisnMuslimRoute()),
           ),
           _FeatureShortcut(
             label: l10n.anotherScreenMyDuas,
             subtitle: l10n.anotherScreenMyDuasSubtitle,
             icon: AppIcons.user,
-            onTap: () => context.push(const MuDoaProvider()),
+            onTap: () => context.router.push(const MuDoaProviderRoute()),
           ),
           _FeatureShortcut(
             label: l10n.anotherScreenTraveler,
@@ -125,7 +113,7 @@ class AnotherFeatures extends StatelessWidget {
             label: l10n.anotherScreenHomeWidgets,
             subtitle: l10n.anotherScreenHomeWidgetsSubtitle,
             icon: AppIcons.widgets,
-            onTap: () => context.push(const HomeWidgetsScreen()),
+            onTap: () => context.router.push(const HomeWidgetsRoute()),
           ),
         ],
       ),
@@ -141,27 +129,27 @@ class AnotherFeatures extends StatelessWidget {
         return TravelerOptionsSheet(
           onOpenNearbyMosques: () {
             Navigator.of(sheetContext).pop();
-            context.push(
-              TravelPlacesMapScreen(
+            context.router.push(
+              TravelPlacesMapRoute(
                 placeTypeSlug: TravelerPlaceType.mosque.slug,
               ),
             );
           },
           onOpenTravelAzkar: () {
             Navigator.of(sheetContext).pop();
-            context.push(const TravelAthkarScreen());
+            context.router.push(const TravelAthkarRoute());
           },
           onOpenHalalRestaurants: () {
             Navigator.of(sheetContext).pop();
-            context.push(
-              TravelPlacesMapScreen(
+            context.router.push(
+              TravelPlacesMapRoute(
                 placeTypeSlug: TravelerPlaceType.halalRestaurant.slug,
               ),
             );
           },
           onOpenFlightPrayerTimes: () {
             Navigator.of(sheetContext).pop();
-            context.push(const FlightPrayerTimesScreen());
+            context.router.push(const FlightPrayerTimesRoute());
           },
         );
       },

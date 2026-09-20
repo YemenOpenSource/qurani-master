@@ -26,13 +26,6 @@ import 'package:quran_app/l10n/l10n.dart';
 class QuranPlanAddScreen extends StatefulWidget implements AutoRouteWrapper {
   const QuranPlanAddScreen({super.key});
 
-  // TODO(routing): `QuranPlanBloc` is a `registerFactory` in
-  // `lib/features/quran_plan/data/di/injection_container.dart`, so this route
-  // owns a different instance than `QuranPlanListScreen`. A plan created here
-  // will not appear in the list until the list reloads. Either promote the
-  // registration to `registerLazySingleton`, or have `QuranPlanListScreen`
-  // dispatch `LoadAllPlansEvent` when this route pops. Registrations are owned
-  // by the DI/service-locator task, so nothing is changed here.
   @override
   Widget wrappedRoute(BuildContext context) => BlocProvider<QuranPlanBloc>(
         create: (_) => sl<QuranPlanBloc>(),

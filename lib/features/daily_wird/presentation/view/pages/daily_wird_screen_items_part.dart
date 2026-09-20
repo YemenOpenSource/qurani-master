@@ -109,42 +109,11 @@ class _ItemRow extends StatelessWidget {
   Future<void> _openItem(BuildContext context) async {
     final destination = DailyWirdDestinationResolver.resolve(item);
     if (destination != null) {
-      context.push(destination);
+      await context.router.push(destination);
       return;
     }
 
-    final bloc = context.read<DailyWirdBloc>();
-
-    await Navigator.of(context).push(
-      PageRouteBuilder<void>(
-        settings: const RouteSettings(name: 'DailyWirdFocusScreen'),
-        transitionDuration: const Duration(milliseconds: 360),
-        reverseTransitionDuration: const Duration(milliseconds: 260),
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return BlocProvider.value(
-            value: bloc,
-            child: DailyWirdFocusScreen(itemId: item.id),
-          );
-        },
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curved = CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOutCubic,
-            reverseCurve: Curves.easeInCubic,
-          );
-          return FadeTransition(
-            opacity: curved,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, 0.05),
-                end: Offset.zero,
-              ).animate(curved),
-              child: child,
-            ),
-          );
-        },
-      ),
-    );
+    await context.router.push(DailyWirdFocusRoute(itemId: item.id));
   }
 }
 

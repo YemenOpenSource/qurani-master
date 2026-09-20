@@ -43,15 +43,6 @@ bool ISCONNECTED = true;
 // bool ISNOT_NOTIFY = true;
 
 //
-void navigateTo(Widget? child, BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => child!,
-      settings: RouteSettings(name: child.runtimeType.toString()),
-    ),
-  );
-}
 
 // selected Index
 int selectedIndex = 3;

@@ -5,16 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/bloc/locale/locale_cubit.dart';
 import 'package:quran_app/core/bloc/theme/theme_bloc.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/theme_manager.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/url_launcher_utils.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
-import 'package:quran_app/features/download/presentation/view/pages/download_screen.dart';
-import 'package:quran_app/features/language/presentation/language_picker_screen.dart';
 import 'package:quran_app/features/setting/data/services/social_links_service.dart';
-import 'package:quran_app/features/setting/presentation/view/pages/app_information_pages.dart';
 import 'package:quran_app/features/setting/presentation/view/widgets/settings_skin.dart';
-import 'package:quran_app/features/setting_notification/presentation/view/pages/setting_notification_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 import 'package:quran_app/src/core/review/app_review_service.dart';
 import 'package:quran_app/src/core/update/app_update_cubit.dart';
@@ -116,22 +112,22 @@ class _SettingScreenState extends State<SettingScreen> {
                 title: context.l10n.languageSettingTitle,
                 subtitle:
                     '${state.language.flag}  ${state.language.nativeName}',
-                onTap: () =>
-                    context.push(const LanguagePickerScreen.settings()),
+                onTap: () => context.router.push(LanguagePickerRoute()),
               ),
             ),
             SettingsRow(
               icon: AppIcons.notifications,
               title: context.l10n.settingsNotificationsTitle,
               subtitle: context.l10n.settingsNotificationsSubtitle,
-              onTap: () => context.push(const SettingNotificationScreen()),
+              onTap: () =>
+                  context.router.push(const SettingNotificationRoute()),
             ),
             SettingsRow(
               icon: AppIcons.download,
               title: context.l10n.settingsDownloadsTitle,
               subtitle: context.l10n.settingsDownloadsSubtitle,
               isLast: true,
-              onTap: () => context.push(const DownloadScreen()),
+              onTap: () => context.router.push(const DownloadRoute()),
             ),
           ],
         ),
@@ -148,7 +144,7 @@ class _SettingScreenState extends State<SettingScreen> {
               icon: AppIcons.quran,
               title: context.l10n.settingsAboutUsTitle,
               subtitle: context.l10n.settingsAboutUsSubtitle,
-              onTap: () => context.push(const AboutAppScreen()),
+              onTap: () => context.router.push(const AboutAppRoute()),
             ),
             SettingsRow(
               icon: AppIcons.star,
@@ -166,14 +162,14 @@ class _SettingScreenState extends State<SettingScreen> {
               icon: AppIcons.shield,
               title: context.l10n.settingsPrivacyPolicyTitle,
               subtitle: context.l10n.settingsPrivacyPolicySubtitle,
-              onTap: () => context.push(const PrivacyPolicyScreen()),
+              onTap: () => context.router.push(const PrivacyPolicyRoute()),
             ),
             SettingsRow(
               icon: AppIcons.security,
               title: context.l10n.settingsDataSafetyTitle,
               subtitle: context.l10n.settingsDataSafetySubtitle,
               isLast: true,
-              onTap: () => context.push(const DataSafetyScreen()),
+              onTap: () => context.router.push(const DataSafetyRoute()),
             ),
           ],
         ),
@@ -184,7 +180,7 @@ class _SettingScreenState extends State<SettingScreen> {
               icon: AppIcons.user,
               title: context.l10n.settingsAboutDeveloperTitle,
               subtitle: context.l10n.settingsAboutDeveloperSubtitle,
-              onTap: () => context.push(const DeveloperAboutScreen()),
+              onTap: () => context.router.push(const DeveloperAboutRoute()),
             ),
             SettingsRow(
               icon: AppIcons.source,

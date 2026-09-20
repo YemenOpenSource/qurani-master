@@ -118,36 +118,3 @@ TextStyle youngMuslimNumber(
     fontFeatures: const [FontFeature.tabularFigures()],
   );
 }
-
-/// [screenName] إلزامي: كل الشاشات هنا تُمرَّر ملفوفة بـ
-/// `YoungMuslimRouteScope.inherit`، فاسم صنف [child] لا يدلّ على الشاشة، و
-/// `FirebaseAnalyticsObserver` لا يسجّل مسارًا بلا اسم.
-PageRouteBuilder<T> youngMuslimPageRoute<T>({
-  required Widget child,
-  required String screenName,
-}) {
-  return PageRouteBuilder<T>(
-    settings: RouteSettings(name: screenName),
-    transitionDuration: const Duration(milliseconds: 260),
-    reverseTransitionDuration: const Duration(milliseconds: 220),
-    pageBuilder: (_, __, ___) => child,
-    transitionsBuilder: (context, animation, secondaryAnimation, routeChild) {
-      final curvedAnimation = CurvedAnimation(
-        parent: animation,
-        curve: Curves.easeOutCubic,
-        reverseCurve: Curves.easeInCubic,
-      );
-
-      return FadeTransition(
-        opacity: Tween<double>(begin: 0.92, end: 1).animate(curvedAnimation),
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 0.03),
-            end: Offset.zero,
-          ).animate(curvedAnimation),
-          child: routeChild,
-        ),
-      );
-    },
-  );
-}

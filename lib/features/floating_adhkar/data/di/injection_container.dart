@@ -34,7 +34,11 @@ Future<void> registerFloatingAdhkarDependencies(GetIt getIt) async {
         notificationService: getIt(),
       ),
     )
-    ..registerFactory<FloatingAdhkarBloc>(
+    // singleton لا factory: الشاشات المرتبطة تتشارك الحالة نفسها. كانت
+    // تُمرَّر بينها عبر `BlocProvider.value`، وبعد الترحيل صار كل مسار يطلبها
+    // من `get_it`. لو بقيت factory لفتحت كل شاشة نسخةً فارغة ولما عاد أي
+    // تعديل إلى الشاشة التي استدعتها — عطلٌ صامت لا يظهر كخطأ.
+    ..registerLazySingleton<FloatingAdhkarBloc>(
       () => FloatingAdhkarBloc(
         repository: getIt<FloatingAdhkarRepository>(),
         overlayController: getIt<FloatingAdhkarOverlayController>(),

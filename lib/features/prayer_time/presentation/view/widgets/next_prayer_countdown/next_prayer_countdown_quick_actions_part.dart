@@ -12,22 +12,22 @@ class _QuickActionsPanel extends StatelessWidget {
       _QuickActionItem(
         label: context.l10n.prayerTimeQuickMushaf,
         icon: AppIcons.quran,
-        onTap: () => context.push(const ReadQuranScreen()),
+        onTap: () => context.router.push(ReadQuranRoute()),
       ),
       _QuickActionItem(
         label: context.l10n.prayerTimeQuickPrayerTimes,
         icon: AppIcons.clock,
-        onTap: () => context.push(const PrayerTimeScreen()),
+        onTap: () => context.router.push(const PrayerTimeRoute()),
       ),
       _QuickActionItem(
         label: context.l10n.qiblahTitle,
         icon: AppIcons.compass,
-        onTap: () => context.push(const QiblahMainScreen()),
+        onTap: () => context.router.push(const QiblahMainRoute()),
       ),
       _QuickActionItem(
         label: context.l10n.prayerTimeQuickAdhkar,
         icon: AppIcons.tasbih,
-        onTap: () => context.push(const MainThikrScreen()),
+        onTap: () => context.router.push(const MainThikrRoute()),
       ),
     ];
   }

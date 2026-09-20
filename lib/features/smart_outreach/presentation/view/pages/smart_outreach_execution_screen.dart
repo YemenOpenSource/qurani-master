@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/smart_outreach/data/repo/smart_outreach_schedule_repository.dart';
-import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_outreach_call_logs_screen.dart';
 import 'package:quran_app/features/smart_outreach/presentation/view/widgets/smart_outreach_ui_kit.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -98,14 +98,9 @@ class _SmartOutreachExecutionScreenState
             onTap: _starting
                 ? null
                 : () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        settings: const RouteSettings(
-                          name: 'SmartOutreachCallLogsScreen',
-                        ),
-                        builder: (_) => SmartOutreachCallLogsScreen(
-                          scheduleId: widget.scheduleId,
-                        ),
+                    context.router.push(
+                      SmartOutreachCallLogsRoute(
+                        scheduleId: widget.scheduleId,
                       ),
                     );
                   },

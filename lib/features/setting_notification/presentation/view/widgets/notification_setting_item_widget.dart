@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:quran_app/core/notification/model/notification_schedule_model.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
-import 'package:quran_app/features/notification_schedules/presentation/view/pages/notification_schedules_screen.dart';
 import 'package:quran_app/features/setting/data/model/notification_setting_model.dart';
 import 'package:quran_app/features/setting/presentation/view/widgets/settings_skin.dart';
 import 'package:quran_app/features/setting_notification/presentation/bloc/setting_notification_bloc.dart';
@@ -106,8 +106,8 @@ class NotificationSettingItemWidget extends StatelessWidget {
             isLast: true,
             onTap: () {
               Navigator.of(sheetContext).pop();
-              context.push(
-                NotificationSchedulesScreen(notifKey: model.key),
+              context.router.push(
+                NotificationSchedulesRoute(notifKey: model.key),
               );
             },
           ),

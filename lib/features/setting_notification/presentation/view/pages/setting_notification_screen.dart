@@ -2,14 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_app/core/extensions/request_state_extension.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/features/setting/data/model/notification_setting_model.dart';
 import 'package:quran_app/features/setting/presentation/view/widgets/settings_skin.dart';
 import 'package:quran_app/features/setting_notification/data/constant/notification_data_const.dart';
 import 'package:quran_app/features/setting_notification/presentation/bloc/setting_notification_bloc.dart';
-import 'package:quran_app/features/setting_notification/presentation/view/pages/system_notification_screen.dart';
 import 'package:quran_app/features/setting_notification/presentation/view/widgets/notification_setting_item_widget.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -293,7 +292,7 @@ class _SettingNotificationView extends StatelessWidget {
               title: context.l10n.notifSettingsSystemTitle,
               subtitle: context.l10n.notifSettingsSystemSubtitle,
               isLast: true,
-              onTap: () => context.push(const SystemNotificationScreen()),
+              onTap: () => context.router.push(const SystemNotificationRoute()),
             ),
           ],
         ),

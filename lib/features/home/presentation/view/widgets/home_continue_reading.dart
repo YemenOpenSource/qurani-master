@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/features/home/data/surah_label.dart';
-import 'package:quran_app/features/read_quran/presentation/view/pages/read_quran_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 import 'package:quran_library/quran_library.dart';
 
@@ -63,8 +63,8 @@ class _HomeContinueReadingState extends State<HomeContinueReading> {
         final hasProgress = lastRead != null && lastRead.page > 1;
 
         return InkWell(
-          onTap: () => context.push(
-            ReadQuranScreen(page: hasProgress ? lastRead.page - 1 : 0),
+          onTap: () => context.router.push(
+            ReadQuranRoute(page: hasProgress ? lastRead.page - 1 : 0),
           ),
           child: Padding(
             padding: EdgeInsets.fromLTRB(16.w, 9.h, 16.w, 9.h),

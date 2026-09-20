@@ -20,12 +20,6 @@ import 'package:quran_app/l10n/l10n.dart';
 /// كانت تُدفع ملفوفة بـ `BlocProvider.value` من ترويسة المسبحة. صار البلوك
 /// يُحلّ من `get_it` داخل [wrappedRoute] حتى يصمد المسار أمام الروابط العميقة.
 ///
-// TODO(routing): `SabihBloc` مسجّل في `service_locator.dart` كـ
-// `registerFactory`، فهذه الشاشة تأخذ نسخة جديدة لا نسخة شاشة المسبحة.
-// هي تحمّل بياناتها بنفسها في `initState` عبر `GetAnalyticsDataEvent`، فتعمل
-// مستقلّة، لكن العدّادات لن تبقى متزامنة لحظيًا مع المسبحة كما كانت. تحتاج
-// المشاركة الحقيقية تسجيله `registerLazySingleton` في `core/` — خارج ملكية
-// هذه الميزة.
 @RoutePage()
 class AnalyticsScreen extends StatefulWidget implements AutoRouteWrapper {
   const AnalyticsScreen({super.key});

@@ -1,10 +1,11 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:quran_app/core/notification/notification_service.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/navigation_service.dart';
 import 'package:quran_app/features/prayer_time/data/service/athan_alarm_payload_service.dart';
-import 'package:quran_app/features/prayer_time/presentation/view/pages/prayer_athan_alert_screen.dart';
 
 class AthanAlarmNotificationRouterService {
   AthanAlarmNotificationRouterService({
@@ -53,15 +54,16 @@ class AthanAlarmNotificationRouterService {
     _lastHandledAt = now;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final navigator = NavigationService.navigatorKey.currentState;
-      if (navigator == null) {
+      // الموجّه بدل `navigatorKey` مباشرةً: فالمسار الآن يحمل اسمه وعنوانه،
+      // فيُسجَّل في التحليلات ويُفتح بالرابط `/prayer/athan/<name>` أيضًا.
+      final context = NavigationService.navigatorKey.currentContext;
+      if (context == null) {
         return;
       }
 
-      navigator.push(
-        MaterialPageRoute<void>(
-          settings: const RouteSettings(name: 'PrayerAthanAlertScreen'),
-          builder: (_) => PrayerAthanAlertScreen(
+      unawaited(
+        context.router.push(
+          PrayerAthanAlertRoute(
             prayerName: data.prayerName,
             prayerTimeLabel: data.prayerTimeLabel,
           ),

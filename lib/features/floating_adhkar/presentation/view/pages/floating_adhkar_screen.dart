@@ -1,17 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/floating_adhkar/data/models/floating_adhkar_item.dart';
 import 'package:quran_app/features/floating_adhkar/data/models/floating_adhkar_settings.dart';
 import 'package:quran_app/features/floating_adhkar/presentation/bloc/floating_adhkar_bloc.dart';
-import 'package:quran_app/features/floating_adhkar/presentation/view/pages/floating_adhkar_my_adhkar_screen.dart';
-import 'package:quran_app/features/floating_adhkar/presentation/view/pages/floating_adhkar_settings_screen.dart';
 import 'package:quran_app/features/floating_adhkar/presentation/view/widgets/floating_adhkar_widgets.dart';
 import 'package:quran_app/features/home/presentation/view/widgets/home_section_header.dart';
 import 'package:quran_app/features/thikr/presentation/view/widgets/library_screen_kit.dart';
@@ -102,23 +101,11 @@ class FloatingAdhkarScreen extends StatelessWidget {
   }
 
   static void _openManageAdhkar(BuildContext context) {
-    context.push(
-      BlocProvider.value(
-        value: context.read<FloatingAdhkarBloc>(),
-        child: const FloatingAdhkarMyAdhkarScreen(),
-      ),
-      screenName: 'FloatingAdhkarMyAdhkarScreen',
-    );
+    context.router.push(const FloatingAdhkarMyAdhkarRoute());
   }
 
   static void _openSettings(BuildContext context) {
-    context.push(
-      BlocProvider.value(
-        value: context.read<FloatingAdhkarBloc>(),
-        child: const FloatingAdhkarSettingsScreen(),
-      ),
-      screenName: 'FloatingAdhkarSettingsScreen',
-    );
+    context.router.push(const FloatingAdhkarSettingsRoute());
   }
 }
 

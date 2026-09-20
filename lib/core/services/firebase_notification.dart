@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:quran_app/core/services/navigation_service.dart';
 import 'package:quran_app/features/setting_notification/data/constant/notification_data_const.dart';
 import 'package:quran_app/features/setting_notification/data/database/database_notification_setting_service.dart';
 import 'package:quran_app/firebase_options.dart';
@@ -437,30 +439,37 @@ class FirebaseNotificationService {
     }
   }
 
+  /// يفتح الشاشة المقصودة عند الضغط على إشعار من الخادم.
+  ///
+  /// الحمولة تحمل `route` — مسارًا نصّيًا مثل `/quran` أو `/plans/3` — فيتولّى
+  /// الموجّه مطابقته. لا جدول تحويل هنا: أي مسار معلن في التطبيق يصير قابلًا
+  /// للفتح من إشعار دون تعديل هذا الملف.
+  ///
+  /// كانت هنا `switch` على أنواع `chat`/`order`/`general` منسوخة من تطبيق آخر،
+  /// لا تفعل سوى الطباعة.
   void _handleBackgroundMessage(RemoteMessage message) {
     try {
-      debugPrint('Handling background message: ${message.data}');
+      debugPrint('Handling notification tap: ${message.data}');
 
-      // Handle different notification types
-      final type = message.data['type'] as String?;
-      final route = message.data['route'] as String?;
-      final id = message.data['id'] as String?;
-
-      switch (type) {
-        case 'chat':
-          debugPrint('Navigating to chat screen');
-        case 'order':
-          debugPrint('Navigating to order screen');
-        case 'general':
-          debugPrint('Navigating to general notification screen');
-        default:
-          debugPrint('Unknown notification type: $type');
+      final route = (message.data['route'] as String?)?.trim();
+      if (route == null || route.isEmpty) {
+        // إشعارٌ بلا وجهة: يفتح التطبيق على ما كان عليه، وهذا مقصود.
+        return;
       }
 
-      // TODO: Implement navigation logic
-      // NavigationService.instance.navigateTo(route, arguments: {'id': id});
+      final context = NavigationService.navigatorKey.currentContext;
+      if (context == null) {
+        // التطبيق لم يركّب شجرته بعد — يحدث عند الإقلاع البارد. لا نُسقط
+        // الرابط: `getInitialMessage` يُستدعى مرّة أخرى بعد التركيب.
+        return;
+      }
+
+      // `navigatePath` لا `pushPath`: ضغطتان على الإشعار نفسه يجب ألّا تكدّسا
+      // نسختين من الشاشة. و`includePrefixMatches` في إعداد الموجّه يبني
+      // المكدّس الكامل، فزرّ الرجوع يعود إلى الرئيسية لا يخرج من التطبيق.
+      unawaited(context.router.navigatePath(route));
     } catch (e) {
-      debugPrint('Error handling background message: $e');
+      debugPrint('Error handling notification tap: $e');
     }
   }
 

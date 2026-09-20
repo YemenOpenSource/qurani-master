@@ -88,29 +88,16 @@ extension _SchedulesLogic on _SmartOutreachSchedulesViewState {
     SmartOutreachScheduleBundle? bundle,
   }) async {
     final bloc = context.read<SmartOutreachSchedulesBloc>();
-    await Navigator.of(context).push<void>(
-      MaterialPageRoute<void>(
-        settings: const RouteSettings(
-          name: 'SmartOutreachUpsertScheduleScreen',
-        ),
-        builder: (_) => BlocProvider.value(
-          value: bloc,
-          child: SmartOutreachUpsertScheduleScreen(initialBundle: bundle),
-        ),
-      ),
+    await context.router.push(
+      SmartOutreachUpsertScheduleRoute(initialBundle: bundle),
     );
 
     bloc.add(const LoadSmartOutreachSchedulesEvent(changeState: false));
   }
 
   Future<void> _openExecution(BuildContext context, int scheduleId) async {
-    await Navigator.of(context).push<void>(
-      MaterialPageRoute<void>(
-        settings: const RouteSettings(
-          name: 'SmartOutreachExecutionScreen',
-        ),
-        builder: (_) => SmartOutreachExecutionScreen(scheduleId: scheduleId),
-      ),
+    await context.router.push(
+      SmartOutreachExecutionRoute(scheduleId: scheduleId),
     );
     if (context.mounted) {
       context

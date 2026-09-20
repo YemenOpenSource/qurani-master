@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
@@ -15,10 +16,6 @@ import 'package:quran_app/features/smart_outreach/data/model/smart_outreach_bund
 import 'package:quran_app/features/smart_outreach/data/model/smart_outreach_schedule_model.dart';
 import 'package:quran_app/features/smart_outreach/data/service/smart_outreach_permission_service.dart';
 import 'package:quran_app/features/smart_outreach/presentation/bloc/smart_outreach_schedules_bloc.dart';
-import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_outreach_call_logs_screen.dart';
-import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_outreach_execution_screen.dart';
-import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_outreach_settings_screen.dart';
-import 'package:quran_app/features/smart_outreach/presentation/view/pages/smart_outreach_upsert_schedule_screen.dart';
 import 'package:quran_app/features/smart_outreach/presentation/view/widgets/smart_outreach_schedule_item_card.dart';
 import 'package:quran_app/features/smart_outreach/presentation/view/widgets/smart_outreach_ui_kit.dart';
 import 'package:quran_app/l10n/l10n.dart';
@@ -191,14 +188,7 @@ class _SmartOutreachSchedulesViewState
           icon: AppIcons.clock,
           showChevron: true,
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                settings: const RouteSettings(
-                  name: 'SmartOutreachCallLogsScreen',
-                ),
-                builder: (_) => const SmartOutreachCallLogsScreen(),
-              ),
-            );
+            context.router.push(SmartOutreachCallLogsRoute());
           },
         ),
         OutreachRow(
@@ -208,14 +198,7 @@ class _SmartOutreachSchedulesViewState
           showChevron: true,
           isLast: true,
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                settings: const RouteSettings(
-                  name: 'SmartOutreachSettingsScreen',
-                ),
-                builder: (_) => const SmartOutreachSettingsScreen(),
-              ),
-            );
+            context.router.push(const SmartOutreachSettingsRoute());
           },
         ),
         SizedBox(height: 64.h),

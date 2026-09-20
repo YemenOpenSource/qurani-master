@@ -6,9 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/extensions/snackbar_export.dart';
 import 'package:quran_app/core/extensions/snackbar_extension.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
@@ -16,7 +16,6 @@ import 'package:quran_app/features/daily_wird/data/models/daily_wird_preset_mode
 import 'package:quran_app/features/daily_wird/data/models/daily_wird_program_item_model.dart';
 import 'package:quran_app/features/daily_wird/presentation/bloc/daily_wird_bloc.dart';
 import 'package:quran_app/features/daily_wird/presentation/view/daily_wird_destination_resolver.dart';
-import 'package:quran_app/features/daily_wird/presentation/view/pages/daily_wird_focus_screen.dart';
 import 'package:quran_app/features/daily_wird/presentation/view/widgets/daily_wird_common.dart';
 import 'package:quran_app/features/home/presentation/view/widgets/home_section_header.dart';
 import 'package:quran_app/l10n/l10n.dart';

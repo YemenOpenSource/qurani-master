@@ -1,13 +1,14 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/features/prayer_time/data/service/athan_alarm_payload_service.dart';
-import 'package:quran_app/features/prayer_time/presentation/view/pages/prayer_time_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
 /// شاشة نداء الأذان: لحظة واحدة، فلا شيء فيها يزاحم اسم الصلاة.
@@ -173,14 +174,7 @@ class PrayerAthanAlertScreen extends StatelessWidget {
               SizedBox(height: 6.h),
               InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      settings: const RouteSettings(
-                        name: 'PrayerTimeScreen',
-                      ),
-                      builder: (_) => const PrayerTimeScreen(),
-                    ),
-                  );
+                  unawaited(context.router.push(const PrayerTimeRoute()));
                 },
                 borderRadius: BorderRadius.circular(999.r),
                 child: Padding(

@@ -5,9 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/extensions/request_state/request_state_sliver_extension.dart';
 import 'package:quran_app/core/extensions/snackbar_extension.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/animated_snackbar_widget.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
@@ -15,8 +15,6 @@ import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/core/widgets/generic_search_bar.dart';
 import 'package:quran_app/features/quran_plan/data/model/quran_plan_model.dart';
 import 'package:quran_app/features/quran_plan/presentation/bloc/quran_plan_bloc.dart';
-import 'package:quran_app/features/quran_plan/presentation/view/pages/quran_plan_add_screen.dart';
-import 'package:quran_app/features/quran_plan/presentation/view/pages/quran_plan_session_screen.dart';
 import 'package:quran_app/features/quran_plan/presentation/view/widgets/plan_progress_line.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -56,13 +54,7 @@ class QuranPlanListScreen extends StatelessWidget {
                 tooltip: context.l10n.quranPlanNewTooltip,
                 onPressed: () {
                   HapticFeedback.selectionClick();
-                  context.push(
-                    BlocProvider.value(
-                      value: ctx.read<QuranPlanBloc>(),
-                      child: const QuranPlanAddScreen(),
-                    ),
-                    screenName: 'QuranPlanAddScreen',
-                  );
+                  context.router.push(const QuranPlanAddRoute());
                 },
                 child: AppIcon(
                   AppIcons.add,
@@ -135,8 +127,8 @@ class PlanRow extends StatelessWidget {
         if (plan.id == null) {
           return;
         }
-        context.push(
-          QuranPlanSessionScreen(planId: plan.id!, title: plan.title),
+        context.router.push(
+          QuranPlanSessionRoute(planId: plan.id!, title: plan.title),
         );
       },
       child: Container(

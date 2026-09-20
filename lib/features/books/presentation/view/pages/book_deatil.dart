@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/download_service.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/books/data/remote/book_repository_imp.dart';
 import 'package:quran_app/features/books/presentation/bloc/book_bloc.dart';
-import 'package:quran_app/features/books/presentation/view/pages/read_book.dart';
 import 'package:quran_app/features/books/presentation/view/widgets/book_row.dart';
 import 'package:quran_app/features/home/presentation/view/widgets/home_section_header.dart';
 import 'package:quran_app/l10n/l10n.dart';
@@ -134,7 +133,9 @@ class _AttachmentRow extends StatelessWidget {
       subtitle: size,
       icon: AppIcons.book,
       isLast: isLast,
-      onTap: url.isEmpty ? () {} : () => context.push(ReadBook(url: url)),
+      onTap: url.isEmpty
+          ? () {}
+          : () => context.router.push(ReadBookRoute(url: url)),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

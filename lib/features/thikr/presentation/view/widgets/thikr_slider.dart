@@ -1,9 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
-import 'package:quran_app/features/wird/presentation/view/pages/wird_screen.dart';
 import 'package:quran_app/gen/fonts.gen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -29,7 +29,7 @@ class ThikrSlider extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(16.w, 2.h, 16.w, 2.h),
       child: InkWell(
-        onTap: () => context.push(WirdScreen(isMorning: !isEvening)),
+        onTap: () => context.router.push(WirdRoute(isMorning: !isEvening)),
         borderRadius: BorderRadius.circular(14.r),
         child: Ink(
           decoration: BoxDecoration(

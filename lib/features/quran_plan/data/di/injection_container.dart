@@ -12,7 +12,11 @@ Future<void> registerQuranPlanDependencies(GetIt getIt) async {
         notificationService: getIt<NotificationService>(),
       ),
     )
-    ..registerFactory<QuranPlanBloc>(
+    // singleton لا factory: الشاشات المرتبطة تتشارك الحالة نفسها. كانت
+    // تُمرَّر بينها عبر `BlocProvider.value`، وبعد الترحيل صار كل مسار يطلبها
+    // من `get_it`. لو بقيت factory لفتحت كل شاشة نسخةً فارغة ولما عاد أي
+    // تعديل إلى الشاشة التي استدعتها — عطلٌ صامت لا يظهر كخطأ.
+    ..registerLazySingleton<QuranPlanBloc>(
       () => QuranPlanBloc(
         getIt<QuranPlanDataSource>(),
       ),

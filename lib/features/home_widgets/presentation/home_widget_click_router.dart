@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/navigation_service.dart';
 import 'package:quran_app/features/home_widgets/data/home_widget_ids.dart';
-import 'package:quran_app/features/prayer_time/presentation/view/pages/prayer_time_screen.dart';
 
 /// يفتح الشاشة المناسبة عند الضغط على ودجت.
 ///
@@ -38,20 +38,17 @@ abstract final class HomeWidgetClickRouter {
       return;
     }
 
-    final navigator = NavigationService.navigatorKey.currentState;
-    if (navigator == null) return;
+    final context = NavigationService.navigatorKey.currentContext;
+    if (context == null) return;
 
     switch (uri.pathSegments.firstOrNull) {
       case 'next-prayer':
       case 'prayer-times':
-        unawaited(
-          navigator.push(
-            MaterialPageRoute<void>(
-              settings: const RouteSettings(name: 'PrayerTimeScreen'),
-              builder: (_) => const PrayerTimeScreen(),
-            ),
-          ),
-        );
+        // `navigate` لا `push`: الضغط على الودجت مرارًا يجب ألّا يكدّس نسخًا
+        // من الشاشة نفسها فوق بعضها.
+        unawaited(context.router.navigate(const PrayerTimeRoute()));
+      // 'daily-ayah' بلا وجهة عمدًا: الودجت يعرض الآية، والضغطة تفتح التطبيق
+      // على الرئيسية فحسب.
     }
   }
 }

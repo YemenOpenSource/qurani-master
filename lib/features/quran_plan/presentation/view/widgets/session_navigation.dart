@@ -1,7 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/features/quran_plan/data/model/quran_plan_session_model.dart';
-import 'package:quran_app/features/read_quran/presentation/view/pages/read_quran_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 import 'package:quran_library/quran_library.dart';
 
@@ -32,7 +32,7 @@ void openSessionInQuran(BuildContext context, QuranPlanSession session) {
     }
   }
 
-  context.push(ReadQuranScreen(page: targetPage - 1));
+  context.router.push(ReadQuranRoute(page: targetPage - 1));
 }
 
 /// نصّ مدى الجلسة: «من الفاتحة ١ إلى البقرة ٥».

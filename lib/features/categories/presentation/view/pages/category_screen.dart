@@ -1,17 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
-import 'package:quran_app/features/audios/presentation/view/pages/base_audio_screen.dart';
 import 'package:quran_app/features/categories/data/json/quran_json.dart';
 import 'package:quran_app/features/categories/data/json/serah_json.dart';
 import 'package:quran_app/features/categories/data/model/category_section_model.dart';
 import 'package:quran_app/features/categories/data/model/section_type_model.dart';
-import 'package:quran_app/features/categories/presentation/view/pages/category_detail_option_screen.dart';
-import 'package:quran_app/features/categories/presentation/view/pages/category_view_all_screen.dart';
 import 'package:quran_app/features/categories/presentation/view/widgets/category_skin_widgets.dart';
 import 'package:quran_app/features/home/presentation/view/widgets/home_section_header.dart';
 import 'package:quran_app/l10n/l10n.dart';
@@ -90,8 +87,8 @@ class CategoryScreen extends StatelessWidget {
         CategoryTile(
           label: entry.label,
           icon: AppIcons.sound,
-          onTap: () => context.push(
-            BaseAudioScreen(id: entry.id, title: entry.title),
+          onTap: () => context.router.push(
+            BaseAudioRoute(id: entry.id, title: entry.title),
           ),
         ),
     ];
@@ -120,8 +117,8 @@ class CategoryScreen extends StatelessWidget {
         CategoryTile(
           label: pick.label,
           icon: pick.icon,
-          onTap: () => context.push(
-            CategoryDetailOptionScreen(category: data[pick.index]),
+          onTap: () => context.router.push(
+            CategoryDetailOptionRoute(category: data[pick.index]),
           ),
         ),
     ];
@@ -183,8 +180,8 @@ class CategoryScreen extends StatelessWidget {
         CategoryTile(
           label: section.title,
           icon: section.icon,
-          onTap: () => context.push(
-            CategoryViewAllScreen(
+          onTap: () => context.router.push(
+            CategoryViewAllRoute(
               data: section.data.map(SectionTypeModel.fromJson).toList(),
               title: section.title,
             ),

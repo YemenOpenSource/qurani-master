@@ -1,24 +1,26 @@
-import 'package:flutter/widgets.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/json_loader_service.dart';
 import 'package:quran_app/features/daily_wird/data/models/daily_wird_program_item_model.dart';
-import 'package:quran_app/features/my_adia/presentation/view/my_doa_provider.dart';
-import 'package:quran_app/features/read_quran/presentation/view/pages/read_quran_screen.dart';
-import 'package:quran_app/features/sabih/presentation/view/tasbeeh_provider.dart';
-import 'package:quran_app/features/thikr/presentation/view/pages/main_thikr_screen.dart';
-import 'package:quran_app/features/wird/presentation/view/pages/wird_screen.dart';
-import 'package:quran_app/features/zkar_after_pray/presentation/view/pages/zkar_after_pray_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
+/// يحوّل عنصر الورد اليومي إلى المسار الذي يفتحه.
+///
+/// كان يعيد ودجت جاهزة تُدفع مباشرة. بعد الترحيل إلى `auto_route` صار يعيد
+/// `PageRouteInfo`، فالوجهة تحمل عنوانًا يُسجَّل في التحليلات ويُفتح من رابط
+/// أو إشعار، لا مجرّد شجرة ودجت بلا هوية.
 class DailyWirdDestinationResolver {
   const DailyWirdDestinationResolver._();
 
-  static Widget? resolve(DailyWirdItem item) {
+  /// المسار المقابل للعنصر، أو `null` إن لم تكن له وجهةٌ خاصّة — وعندها يفتح
+  /// المستدعي شاشة التركيز العامّة.
+  static PageRouteInfo<dynamic>? resolve(DailyWirdItem item) {
     switch (item.type) {
       case 'quran':
       case 'surah':
-        return const ReadQuranScreen();
+        return ReadQuranRoute();
       case 'counted_dhikr':
-        return const TasbeehProvider();
+        return const TasbeehProviderRoute();
       case 'dhikr_set':
         return _resolveDhikrSet(item);
       case 'dua':
@@ -28,38 +30,42 @@ class DailyWirdDestinationResolver {
     }
   }
 
-  static Widget? _resolveDhikrSet(DailyWirdItem item) {
+  static PageRouteInfo<dynamic> _resolveDhikrSet(DailyWirdItem item) {
     switch (item.timeCategory) {
       case 'morning':
-        return const WirdScreen(isMorning: true);
+        return WirdRoute(isMorning: true);
       case 'evening':
-        return const WirdScreen(isMorning: false);
+        return WirdRoute(isMorning: false);
       default:
         break;
     }
 
     if (item.id == 'post_prayer_dhikr') {
-      return const ZkarAfterPrayScreen();
+      return const ZkarAfterPrayRoute();
     }
 
-    return const MainThikrScreen();
+    return const MainThikrRoute();
   }
 
-  static Widget? _resolveDua(DailyWirdItem item) {
+  static PageRouteInfo<dynamic> _resolveDua(DailyWirdItem item) {
     if (item.id == 'sleep_dua' || item.timeCategory == 'night') {
-      return WirdScreen.custom(
-        title: L10nService.current.thikrSleepTitle,
+      return WirdRoute(
+        isMorning: true,
+        titleOverride: L10nService.current.thikrSleepTitle,
         assetPath: JsonLoaderService.adhkarSleepDreamsPath,
+        filterByPeriod: false,
       );
     }
 
     if (item.id == 'dua_of_day_1' || item.id == 'dua_of_day_2') {
-      return WirdScreen.custom(
-        title: L10nService.current.thikrComprehensiveDuasTitle,
+      return WirdRoute(
+        isMorning: true,
+        titleOverride: L10nService.current.thikrComprehensiveDuasTitle,
         assetPath: JsonLoaderService.adhkarQuranDuasPath,
+        filterByPeriod: false,
       );
     }
 
-    return const MuDoaProvider();
+    return const MuDoaProviderRoute();
   }
 }

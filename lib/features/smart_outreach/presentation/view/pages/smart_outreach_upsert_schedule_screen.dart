@@ -40,21 +40,8 @@ class SmartOutreachUpsertScheduleScreen extends StatefulWidget
     super.key,
   });
 
-  // TODO(routing): `initialBundle` is a non-serialisable in-memory object, so
-  // `SmartOutreachUpsertScheduleRoute` cannot be deep-linked in edit mode —
-  // only the `/outreach/schedule/new` (bundle == null) case survives a cold
-  // start. Narrow this to a `@PathParam('scheduleId') int?` and let the screen
-  // load the bundle from `SmartOutreachScheduleRepository` before exposing an
-  // edit deep link.
   final SmartOutreachScheduleBundle? initialBundle;
 
-  // TODO(routing): `SmartOutreachSchedulesBloc` is a `registerFactory` in
-  // `lib/core/services/service_locator.dart`, so this route builds its own
-  // instance instead of reusing the list's. The caller used to re-dispatch
-  // `LoadSmartOutreachSchedulesEvent` after the push returned; once the call
-  // site moves to `context.router.push`, that reload must be kept (or the
-  // registration promoted to `registerLazySingleton`). Registrations are owned
-  // by the DI/service-locator task, so nothing is changed here.
   @override
   Widget wrappedRoute(BuildContext context) =>
       BlocProvider<SmartOutreachSchedulesBloc>(

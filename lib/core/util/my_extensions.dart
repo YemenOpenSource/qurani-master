@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/components/base_component_show.dart';
 import 'package:quran_app/core/extensions/theme_extensions.dart';
-import 'package:quran_app/core/util/navigator_manager.dart';
 import 'package:quran_app/core/widgets/auto_text.dart';
 import 'package:quran_app/core/widgets/icon_button_widget.dart';
 import 'package:quran_app/l10n/l10n.dart';
@@ -152,9 +151,14 @@ extension MyNavigator on BuildContext {
 
 //--------------------------Navigation---------------------------------
   /// [screenName]: اسم الشاشة في Analytics حين تكون [page] غلافًا لها.
-  void push(Widget page, {String? screenName}) {
-    fadeNavigation(page: page, context: this, screenName: screenName);
-  }
+  // أُزيل `push(Widget)` بعد الترحيل إلى auto_route.
+  //
+  // كان يدفع ودجت مباشرةً، فالوجهة بلا عنوان ولا هوية: لا تُفتح برابط، ولا
+  // يستعيدها الموجّه، ولا يعرف الموجّه بوجودها أصلًا. البديل:
+  //
+  //   context.router.push(const SettingRoute());
+  //
+  // ما بقي في هذا الامتداد هو أدوات العرض (الأوراق السفلية) لا التنقّل.
 
   // أُزيل `pop()` عمدًا.
   //
@@ -168,13 +172,6 @@ extension MyNavigator on BuildContext {
   // مواضع الاستدعاء تستعمل الآن `Navigator.pop(context)` صراحةً.
 
   void hideDialog() => Navigator.of(this, rootNavigator: true).pop('dialog');
-  void pushAndRemoveUntil(Widget page, {String? screenName}) {
-    fadeNavigationWithRemove(
-      page: page,
-      context: this,
-      screenName: screenName,
-    );
-  }
   //--------------------------Navigation---------------------------------
 }
 

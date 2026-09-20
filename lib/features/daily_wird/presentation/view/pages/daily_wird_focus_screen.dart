@@ -23,13 +23,6 @@ class DailyWirdFocusScreen extends StatelessWidget implements AutoRouteWrapper {
 
   final String itemId;
 
-  // TODO(routing): `DailyWirdBloc` is registered with `registerFactory` in
-  // `lib/features/daily_wird/data/di/injection_container.dart`, so this route
-  // gets its OWN bloc instance rather than the one `DailyWirdScreen` built.
-  // Ticking an item here therefore will not refresh the list behind it. Either
-  // promote the registration to `registerLazySingleton`, or make
-  // `DailyWirdScreen` re-dispatch `DailyWirdLoadEvent` when this route pops.
-  // Not changed here: registrations are owned by the DI/service-locator task.
   @override
   Widget wrappedRoute(BuildContext context) => BlocProvider<DailyWirdBloc>(
         create: (_) => sl<DailyWirdBloc>()..add(const DailyWirdLoadEvent()),

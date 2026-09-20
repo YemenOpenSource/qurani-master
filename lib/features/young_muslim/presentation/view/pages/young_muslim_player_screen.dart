@@ -34,20 +34,6 @@ class YoungMuslimPlayerScreen extends StatefulWidget
 
   final String videoId;
 
-  // TODO(routing): neither `YoungMuslimRepository` nor `YoungMuslimBloc` is
-  // registered in `get_it` — `YoungMuslimProvider` still builds both by hand in
-  // its `initState`. This wrapper therefore throws until
-  // `lib/core/services/service_locator.dart` (or a new
-  // `lib/features/young_muslim/data/di/injection_container.dart`) registers:
-  //   * `YoungMuslimLocalDataSource`      (lazy singleton)
-  //   * `YoungMuslimAssetDataSource`      (lazy singleton)
-  //   * `YoungMuslimReminderService`      (notificationService + localDataSource)
-  //   * `YoungMuslimRepository` -> `YoungMuslimRepositoryImpl`  (lazy singleton)
-  //   * `YoungMuslimBloc`                 (lazy SINGLETON, not a factory — the
-  //     four young_muslim routes must share one bloc, and it needs
-  //     `..add(const YoungMuslimStarted())` on creation)
-  // Registrations are owned by the DI/service-locator task, so none is invented
-  // here.
   @override
   Widget wrappedRoute(BuildContext context) => YoungMuslimRouteScope(
         repository: sl<YoungMuslimRepository>(),

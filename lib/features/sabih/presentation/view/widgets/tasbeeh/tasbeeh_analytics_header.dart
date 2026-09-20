@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/features/sabih/presentation/bloc/sabih_bloc.dart';
-import 'package:quran_app/features/sabih/presentation/view/pages/analytics_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
 /// مدخل ملخّص الذكر: صفّ نحيل يحمل مجموع تسبيح اليوم، لا بطاقة.
@@ -25,13 +25,7 @@ class TasbeehAnalyticsHeader extends StatelessWidget {
 
         return InkWell(
           onTap: () {
-            context.push(
-              BlocProvider.value(
-                value: context.read<SabihBloc>(),
-                child: const AnalyticsScreen(),
-              ),
-              screenName: 'TasbeehAnalyticsScreen',
-            );
+            context.router.push(const AnalyticsRoute());
           },
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),

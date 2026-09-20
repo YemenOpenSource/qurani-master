@@ -1,14 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/features/home/data/surah_label.dart';
 import 'package:quran_app/features/home/presentation/bloc/random_ayah_bloc.dart';
-import 'package:quran_app/features/read_quran/presentation/view/pages/read_quran_screen.dart';
 import 'package:quran_app/gen/fonts.gen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 import 'package:quran_library/quran_library.dart';
@@ -109,7 +109,9 @@ class HomeDailyAyah extends StatelessWidget {
                       label: context.l10n.homeReadInMushaf,
                       onTap: page == null
                           ? null
-                          : () => context.push(ReadQuranScreen(page: page - 1)),
+                          : () => context.router.push(
+                              ReadQuranRoute(page: page - 1),
+                            ),
                     ),
                   ),
                 ],

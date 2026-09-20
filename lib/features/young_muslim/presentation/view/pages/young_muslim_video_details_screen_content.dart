@@ -212,15 +212,7 @@ extension _YoungMuslimVideoDetailsScreenContent
   }
 
   Future<void> _openPlayer(String videoId) async {
-    await Navigator.of(context).push(
-      youngMuslimPageRoute<void>(
-        screenName: 'YoungMuslimPlayerScreen',
-        child: YoungMuslimRouteScope.inherit(
-          context: context,
-          child: YoungMuslimPlayerScreen(videoId: videoId),
-        ),
-      ),
-    );
+    await context.router.push(YoungMuslimPlayerRoute(videoId: videoId));
     if (!mounted) {
       return;
     }
@@ -229,14 +221,6 @@ extension _YoungMuslimVideoDetailsScreenContent
   }
 
   void _openVideo(BuildContext context, String videoId) {
-    Navigator.of(context).pushReplacement(
-      youngMuslimPageRoute<void>(
-        screenName: 'YoungMuslimVideoDetailsScreen',
-        child: YoungMuslimRouteScope.inherit(
-          context: context,
-          child: YoungMuslimVideoDetailsScreen(videoId: videoId),
-        ),
-      ),
-    );
+    context.router.replace(YoungMuslimVideoDetailsRoute(videoId: videoId));
   }
 }

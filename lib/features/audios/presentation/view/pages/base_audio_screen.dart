@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/extensions/request_state/request_state_sliver_extension.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/audios/data/remote/base_audio_repository_imp.dart';
 import 'package:quran_app/features/audios/presentation/bloc/base_audio_bloc.dart';
-import 'package:quran_app/features/audios/presentation/view/pages/base_audio_deatil.dart';
 import 'package:quran_app/features/audios/presentation/view/widgets/audio_row.dart';
 import 'package:quran_app/features/audios/presentation/view/widgets/audio_search_field.dart';
 import 'package:quran_app/l10n/l10n.dart';
@@ -93,7 +92,9 @@ class _BaseAudioScreenState extends State<BaseAudioScreen> {
                         subtitle: context.l10n.audiosSeriesSubtitle,
                         icon: AppIcons.sound,
                         isLast: index == items.length - 1,
-                        onTap: () => context.push(BaseAudioDetail(data: item)),
+                        onTap: () => context.router.push(
+                          BaseAudioDetailRoute(data: item),
+                        ),
                       );
                     },
                   ),

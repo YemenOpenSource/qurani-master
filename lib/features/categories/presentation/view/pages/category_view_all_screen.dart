@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/categories/data/model/category_video_model.dart';
 import 'package:quran_app/features/categories/data/model/section_type_model.dart';
-import 'package:quran_app/features/categories/presentation/view/pages/category_data_screen.dart';
 import 'package:quran_app/features/categories/presentation/view/pages/category_detail_screen.dart';
 import 'package:quran_app/features/categories/presentation/view/widgets/category_skin_widgets.dart';
 import 'package:quran_app/l10n/l10n.dart';
@@ -71,8 +71,8 @@ class CategoryViewAllScreen extends StatelessWidget {
       return;
     }
 
-    context.push(
-      CategoryDataScreen(
+    context.router.push(
+      CategoryDataRoute(
         id: section.id ?? 0,
         title: section.title ?? title,
         url: section.apiUrl,

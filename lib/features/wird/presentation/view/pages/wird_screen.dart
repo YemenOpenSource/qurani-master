@@ -15,17 +15,8 @@ import 'package:quran_app/l10n/l10n.dart';
 
 /// ورد الصباح والمساء.
 ///
-/// `auto_route` يشتقّ المسار من **باني واحد** فقط، وهو الباني الافتراضي هنا،
-/// فصار `WirdRoute` يقبل `isMorning` وحدها.
+/// مسارٌ واحد (`WirdRoute`) يخدم الورد القياسي والمجموعات المخصّصة.
 ///
-// TODO(routing): الباني `WirdScreen.custom` (عنوان + مسار أصل مخصّص) لا يولّد
-// له `auto_route` مسارًا. من يستدعيه اليوم — `main_thikr_screen.dart`
-// و`daily_wird_destination_resolver.dart` — يبني الودجت مباشرة. لنقله إلى
-// المسارات يلزم أحد أمرين: ودجت مستقلّة عليها `@RoutePage()` ثانية تلفّ
-// `WirdScreen.custom`، أو توسيع الباني الافتراضي ليقبل `titleOverride`
-// و`assetPath` و`filterByPeriod` كوسائط اختيارية. كلاهما يمسّ مواضع النداء،
-// فتُرك للقرار خارج هذه الشاشة.
-//
 // TODO(routing): `isMorning` وسيط مسار من نوع `bool`، و`auto_route` لا يفكّ
 // إلا 'true'/'false' (راجع `Parameters.optBool`)، فالمسار المولَّد هو
 // `/wird/true`. الروابط الإنجليزية `/wird/morning` و`/wird/evening` مُعرَّفة
@@ -33,20 +24,39 @@ import 'package:quran_app/l10n/l10n.dart';
 // حقيقيًا يلزم تغيير نوع الوسيط، وهو تغيير يمسّ كل موضع نداء.
 @RoutePage()
 class WirdScreen extends StatelessWidget {
+  /// الباني الوحيد الذي يولّد منه `auto_route`.
+  ///
+  /// كان هناك بانيان: الافتراضي لورد الصباح/المساء، و`custom` لمجموعات أخرى
+  /// (أذكار النوم، الجمعة، أدعية قرآنية…). `auto_route` يشتقّ المسار من باني
+  /// واحد، فكانت كل استدعاءات `custom` عاجزة عن أن تصير مسارًا.
+  ///
+  /// فدُمجا: الوسائط الإضافية اختيارية، وغيابها يعني الورد القياسي. هكذا صار
+  /// مسار واحد يخدم الحالتين ولم ينكسر أي موضع نداء.
   const WirdScreen({
     @PathParam('isMorning') required this.isMorning,
+    @QueryParam('title') this.titleOverride,
+    @QueryParam('asset') String? assetPath,
+    @QueryParam('filterByPeriod') bool? filterByPeriod,
     super.key,
-  })  : titleOverride = null,
-        assetPath = JsonLoaderService.wirdsPath,
-        filterByPeriod = true;
+  })  : assetPath = assetPath ?? JsonLoaderService.wirdsPath,
+        // الترشيح بالفترة (صباح/مساء) منطقيٌّ للورد القياسي وحده؛ المجموعات
+        // المخصّصة تُعرض كاملة. تمرير القيمة صراحةً يتقدّم على هذا الاشتقاق.
+        filterByPeriod = filterByPeriod ?? (assetPath == null);
 
+  /// اختصارٌ لمجموعة أذكار مخصّصة. يوجّه إلى الباني الأساسي أعلاه.
   const WirdScreen.custom({
     required String title,
-    required this.assetPath,
-    this.isMorning = true,
-    this.filterByPeriod = false,
-    super.key,
-  }) : titleOverride = title;
+    required String assetPath,
+    bool isMorning = true,
+    bool filterByPeriod = false,
+    Key? key,
+  }) : this(
+          isMorning: isMorning,
+          titleOverride: title,
+          assetPath: assetPath,
+          filterByPeriod: filterByPeriod,
+          key: key,
+        );
 
   final bool isMorning;
   final String? titleOverride;

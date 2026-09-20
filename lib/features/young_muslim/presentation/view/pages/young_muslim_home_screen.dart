@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
@@ -13,8 +14,6 @@ import 'package:quran_app/features/home/presentation/view/widgets/home_section_h
 import 'package:quran_app/features/young_muslim/domain/entities/young_muslim_entities.dart';
 import 'package:quran_app/features/young_muslim/domain/repositories/young_muslim_repository.dart';
 import 'package:quran_app/features/young_muslim/presentation/bloc/young_muslim_bloc.dart';
-import 'package:quran_app/features/young_muslim/presentation/view/pages/young_muslim_category_screen.dart';
-import 'package:quran_app/features/young_muslim/presentation/view/pages/young_muslim_video_details_screen.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/widgets/young_muslim_rewards_sheet.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/widgets/young_muslim_shared_widgets.dart';
 import 'package:quran_app/features/young_muslim/presentation/view/young_muslim_provider.dart';
@@ -29,20 +28,6 @@ class YoungMuslimHomeScreen extends StatefulWidget
     implements AutoRouteWrapper {
   const YoungMuslimHomeScreen({super.key});
 
-  // TODO(routing): neither `YoungMuslimRepository` nor `YoungMuslimBloc` is
-  // registered in `get_it` — `YoungMuslimProvider` still builds both by hand in
-  // its `initState`. This wrapper therefore throws until
-  // `lib/core/services/service_locator.dart` (or a new
-  // `lib/features/young_muslim/data/di/injection_container.dart`) registers:
-  //   * `YoungMuslimLocalDataSource`      (lazy singleton)
-  //   * `YoungMuslimAssetDataSource`      (lazy singleton)
-  //   * `YoungMuslimReminderService`      (notificationService + localDataSource)
-  //   * `YoungMuslimRepository` -> `YoungMuslimRepositoryImpl`  (lazy singleton)
-  //   * `YoungMuslimBloc`                 (lazy SINGLETON, not a factory — the
-  //     four young_muslim routes must share one bloc, and it needs
-  //     `..add(const YoungMuslimStarted())` on creation)
-  // Registrations are owned by the DI/service-locator task, so none is invented
-  // here.
   @override
   Widget wrappedRoute(BuildContext context) => YoungMuslimRouteScope(
         repository: sl<YoungMuslimRepository>(),

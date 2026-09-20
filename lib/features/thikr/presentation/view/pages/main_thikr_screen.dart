@@ -2,17 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_islamic_icons/flutter_islamic_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:quran_app/core/constant.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/json_loader_service.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
-import 'package:quran_app/features/my_adia/presentation/view/my_doa_provider.dart';
-import 'package:quran_app/features/sabih/presentation/view/tasbeeh_provider.dart';
 import 'package:quran_app/features/thikr/presentation/view/widgets/library_screen_kit.dart';
 import 'package:quran_app/features/thikr/presentation/view/widgets/thikr_slider.dart';
-import 'package:quran_app/features/wird/presentation/view/pages/wird_screen.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
 /// مكتبة الأذكار.
@@ -33,22 +29,24 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.wirdMorningAdhkar,
             subtitle: context.l10n.thikrMorningSubtitle,
             icon: FlutterIslamicIcons.prayer,
-            onTap: () => context.push(const WirdScreen(isMorning: true)),
+            onTap: () => context.router.push(WirdRoute(isMorning: true)),
           ),
           _ThikrShortcut(
             label: context.l10n.wirdEveningAdhkar,
             subtitle: context.l10n.thikrEveningSubtitle,
             icon: FlutterIslamicIcons.prayer,
-            onTap: () => context.push(const WirdScreen(isMorning: false)),
+            onTap: () => context.router.push(WirdRoute(isMorning: false)),
           ),
           _ThikrShortcut(
             label: context.l10n.thikrSleepTitle,
             subtitle: context.l10n.thikrSleepSubtitle,
             icon: Icons.bedtime_rounded,
-            onTap: () => context.push(
-              WirdScreen.custom(
-                title: context.l10n.thikrSleepTitle,
+            onTap: () => context.router.push(
+              WirdRoute(
+                isMorning: true,
+                titleOverride: context.l10n.thikrSleepTitle,
                 assetPath: JsonLoaderService.adhkarSleepDreamsPath,
+                filterByPeriod: false,
               ),
             ),
           ),
@@ -56,10 +54,12 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.thikrPrayerJumuahTitle,
             subtitle: context.l10n.thikrPrayerJumuahSubtitle,
             icon: Icons.mosque_rounded,
-            onTap: () => context.push(
-              WirdScreen.custom(
-                title: context.l10n.thikrPrayerJumuahTitle,
+            onTap: () => context.router.push(
+              WirdRoute(
+                isMorning: true,
+                titleOverride: context.l10n.thikrPrayerJumuahTitle,
                 assetPath: JsonLoaderService.adhkarSalahJumuahPath,
+                filterByPeriod: false,
               ),
             ),
           ),
@@ -72,10 +72,12 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.thikrQuranicDuasTitle,
             subtitle: context.l10n.thikrQuranicDuasSubtitle,
             icon: Icons.menu_book_outlined,
-            onTap: () => context.push(
-              WirdScreen.custom(
-                title: context.l10n.thikrQuranicDuasTitle,
+            onTap: () => context.router.push(
+              WirdRoute(
+                isMorning: true,
+                titleOverride: context.l10n.thikrQuranicDuasTitle,
                 assetPath: JsonLoaderService.adhkarQuranicDuasPath,
+                filterByPeriod: false,
               ),
             ),
           ),
@@ -83,10 +85,12 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.thikrComprehensiveDuasTitle,
             subtitle: context.l10n.thikrComprehensiveDuasSubtitle,
             icon: Icons.auto_stories_rounded,
-            onTap: () => context.push(
-              WirdScreen.custom(
-                title: context.l10n.thikrComprehensiveDuasTitle,
+            onTap: () => context.router.push(
+              WirdRoute(
+                isMorning: true,
+                titleOverride: context.l10n.thikrComprehensiveDuasTitle,
                 assetPath: JsonLoaderService.adhkarQuranDuasPath,
+                filterByPeriod: false,
               ),
             ),
           ),
@@ -94,10 +98,12 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.thikrHajjTitle,
             subtitle: context.l10n.thikrHajjSubtitle,
             icon: FlutterIslamicIcons.kaaba,
-            onTap: () => context.push(
-              WirdScreen.custom(
-                title: context.l10n.thikrHajjTitle,
+            onTap: () => context.router.push(
+              WirdRoute(
+                isMorning: true,
+                titleOverride: context.l10n.thikrHajjTitle,
                 assetPath: JsonLoaderService.adhkarHajjUmrahPath,
+                filterByPeriod: false,
               ),
             ),
           ),
@@ -105,10 +111,12 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.thikrFuneralTitle,
             subtitle: context.l10n.thikrFuneralSubtitle,
             icon: Icons.menu_book_rounded,
-            onTap: () => context.push(
-              WirdScreen.custom(
-                title: context.l10n.thikrFuneralTitle,
+            onTap: () => context.router.push(
+              WirdRoute(
+                isMorning: true,
+                titleOverride: context.l10n.thikrFuneralTitle,
                 assetPath: JsonLoaderService.adhkarFuneralPath,
+                filterByPeriod: false,
               ),
             ),
           ),
@@ -121,13 +129,13 @@ class MainThikrScreen extends StatelessWidget {
             label: context.l10n.thikrTasbeehTitle,
             subtitle: context.l10n.thikrTasbeehSubtitle,
             icon: FlutterIslamicIcons.tasbih2,
-            onTap: () => navigateTo(const TasbeehProvider(), context),
+            onTap: () => context.router.push(const TasbeehProviderRoute()),
           ),
           _ThikrShortcut(
             label: context.l10n.myDuasTitle,
             subtitle: context.l10n.thikrMyDuasSubtitle,
             icon: FlutterIslamicIcons.muslim2,
-            onTap: () => context.push(const MuDoaProvider()),
+            onTap: () => context.router.push(const MuDoaProviderRoute()),
           ),
         ],
       ),

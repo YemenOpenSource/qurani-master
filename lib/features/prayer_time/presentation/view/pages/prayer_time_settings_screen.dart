@@ -32,11 +32,6 @@ class PrayerTimeSettingsScreen extends StatefulWidget
     implements AutoRouteWrapper {
   const PrayerTimeSettingsScreen({super.key});
 
-  // TODO(routing): PrayerTimeBloc غير مسجَّل في service_locator.dart، فهو
-  // اليوم يُنشأ في MultiBlocProvider داخل main_view.dart. لا بد من تسجيله
-  // singleton (لا factory) قبل أن يعمل هذا المسار: الشاشة ترسل
-  // PrayerTimeCalculationSettingsChanged وتتوقّع أن تسمعه نفس نسخة الـ bloc
-  // التي تقرأها شاشة المواقيت.
   @override
   Widget wrappedRoute(BuildContext context) => BlocProvider<PrayerTimeBloc>(
         create: (_) => sl<PrayerTimeBloc>(),

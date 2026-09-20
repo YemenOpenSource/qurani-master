@@ -33,12 +33,6 @@ part 'floating_adhkar_my_adhkar_screen_manage_part.dart';
 ///
 /// كانت كل قائمة بطاقات بحدود وشارات؛ صارت صفوفًا نحيلة بمفتاح واحد في
 /// طرف كل صفّ، والتبويب شريطًا بخطّ ذهبي تحت الاسم بدل صندوق مظلّل.
-// TODO(routing): `FloatingAdhkarBloc` مسجّل في
-// `floating_adhkar/data/di/injection_container.dart` كـ `registerFactory`،
-// فالنسخة التي يحلّها [wrappedRoute] غير نسخة `FloatingAdhkarProvider` التي
-// كانت تُمرَّر بـ `BlocProvider.value`. لذلك نُطلق `FloatingAdhkarLoadEvent`
-// هنا حتى تملك الشاشة حالتها. لتشارك الشاشتان نسخة واحدة فعلًا يلزم تحويل
-// التسجيل إلى `registerLazySingleton` — قرار خارج هذه الشاشة.
 @RoutePage()
 class FloatingAdhkarMyAdhkarScreen extends StatelessWidget
     implements AutoRouteWrapper {

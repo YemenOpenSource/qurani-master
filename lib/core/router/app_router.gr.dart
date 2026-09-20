@@ -1799,12 +1799,26 @@ class TravelPlacesMapRouteArgs {
 class WirdRoute extends _i60.PageRouteInfo<WirdRouteArgs> {
   WirdRoute({
     required bool isMorning,
+    String? titleOverride,
+    String? assetPath,
+    bool? filterByPeriod,
     _i61.Key? key,
     List<_i60.PageRouteInfo>? children,
   }) : super(
           WirdRoute.name,
-          args: WirdRouteArgs(isMorning: isMorning, key: key),
+          args: WirdRouteArgs(
+            isMorning: isMorning,
+            titleOverride: titleOverride,
+            assetPath: assetPath,
+            filterByPeriod: filterByPeriod,
+            key: key,
+          ),
           rawPathParams: {'isMorning': isMorning},
+          rawQueryParams: {
+            'title': titleOverride,
+            'asset': assetPath,
+            'filterByPeriod': filterByPeriod,
+          },
           initialChildren: children,
         );
 
@@ -1814,35 +1828,68 @@ class WirdRoute extends _i60.PageRouteInfo<WirdRouteArgs> {
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
+      final queryParams = data.queryParams;
       final args = data.argsAs<WirdRouteArgs>(
-        orElse: () => WirdRouteArgs(isMorning: pathParams.getBool('isMorning')),
+        orElse: () => WirdRouteArgs(
+          isMorning: pathParams.getBool('isMorning'),
+          titleOverride: queryParams.optString('title'),
+          assetPath: queryParams.optString('asset'),
+          filterByPeriod: queryParams.optBool('filterByPeriod'),
+        ),
       );
-      return _i53.WirdScreen(isMorning: args.isMorning, key: args.key);
+      return _i53.WirdScreen(
+        isMorning: args.isMorning,
+        titleOverride: args.titleOverride,
+        assetPath: args.assetPath,
+        filterByPeriod: args.filterByPeriod,
+        key: args.key,
+      );
     },
   );
 }
 
 class WirdRouteArgs {
-  const WirdRouteArgs({required this.isMorning, this.key});
+  const WirdRouteArgs({
+    required this.isMorning,
+    this.titleOverride,
+    this.assetPath,
+    this.filterByPeriod,
+    this.key,
+  });
 
   final bool isMorning;
+
+  final String? titleOverride;
+
+  final String? assetPath;
+
+  final bool? filterByPeriod;
 
   final _i61.Key? key;
 
   @override
   String toString() {
-    return 'WirdRouteArgs{isMorning: $isMorning, key: $key}';
+    return 'WirdRouteArgs{isMorning: $isMorning, titleOverride: $titleOverride, assetPath: $assetPath, filterByPeriod: $filterByPeriod, key: $key}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! WirdRouteArgs) return false;
-    return isMorning == other.isMorning && key == other.key;
+    return isMorning == other.isMorning &&
+        titleOverride == other.titleOverride &&
+        assetPath == other.assetPath &&
+        filterByPeriod == other.filterByPeriod &&
+        key == other.key;
   }
 
   @override
-  int get hashCode => isMorning.hashCode ^ key.hashCode;
+  int get hashCode =>
+      isMorning.hashCode ^
+      titleOverride.hashCode ^
+      assetPath.hashCode ^
+      filterByPeriod.hashCode ^
+      key.hashCode;
 }
 
 /// generated route for

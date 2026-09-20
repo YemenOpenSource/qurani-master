@@ -4,9 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/permission/notification_permission_service.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_sliver_widget.dart';
@@ -19,7 +19,6 @@ import 'package:quran_app/features/home/presentation/view/widgets/home_section_h
 import 'package:quran_app/features/prayer_time/data/service/athan_mute_store.dart';
 import 'package:quran_app/features/prayer_time/presentation/bloc/prayer_time_bloc.dart';
 import 'package:quran_app/features/prayer_time/presentation/view/widgets/next_prayer_countdown/next_prayer_countdown_widget.dart';
-import 'package:quran_app/features/young_muslim/presentation/view/young_muslim_provider.dart';
 import 'package:quran_app/l10n/l10n.dart';
 import 'package:quran_app/src/core/update/app_update_cubit.dart';
 import 'package:quran_app/src/core/update/app_update_service.dart';
@@ -64,6 +63,20 @@ class _HomeScreenState extends State<HomeScreenNew> {
   Widget build(BuildContext context) {
     final skin = AppSkin.of(context);
 
+    // الـ Scaffold كان في `_App` بملفّ main_view، حين كانت الرئيسية هي جسد
+    // التطبيق لا مسارًا. بعد الترحيل إلى auto_route صارت مسارًا مثل غيرها،
+    // فانتقل معها.
+    //
+    // أرضية الصفحة نفسها، لا أرضية الثيم العامة: الفارق بينهما كان يظهر عند
+    // شدّ التمرير وفي زوايا المشهد، فيبدو المحتوى طبقة موضوعة فوق لون آخر بدل
+    // أن يكون هو الشاشة.
+    return Scaffold(
+      backgroundColor: skin.ground,
+      body: _buildBody(context, skin),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, AppSkin skin) {
     // الصفحة كلها سطح ورقي واحد يمتدّ من أسفل المشهد: لا بطاقات عائمة على
     // أرضية داكنة، بل محتوى متّصل تفصله خطوط شعرة.
     return AppSliverWidget(
@@ -115,7 +128,7 @@ class _YoungMuslimRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final skin = AppSkin.of(context);
     return InkWell(
-      onTap: () => context.push(const YoungMuslimProvider()),
+      onTap: () => context.router.push(const YoungMuslimProviderRoute()),
       child: Padding(
         padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
         child: Row(

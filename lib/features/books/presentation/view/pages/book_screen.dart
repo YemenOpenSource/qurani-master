@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/services/service_locator.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
 import 'package:quran_app/features/books/data/remote/book_repository_imp.dart';
 import 'package:quran_app/features/books/presentation/bloc/book_bloc.dart';
-import 'package:quran_app/features/books/presentation/view/pages/book_deatil.dart';
 import 'package:quran_app/features/books/presentation/view/widgets/book_row.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -57,8 +56,8 @@ class BookScreen extends StatelessWidget {
                                 bookFieldOf(state.books[i], 'description'),
                             icon: AppIcons.book,
                             isLast: i == state.books.length - 1,
-                            onTap: () => context.push(
-                              BookDetail(data: state.books[i]),
+                            onTap: () => context.router.push(
+                              BookDetailRoute(data: state.books[i]),
                             ),
                           ),
                         SizedBox(height: 18.h),

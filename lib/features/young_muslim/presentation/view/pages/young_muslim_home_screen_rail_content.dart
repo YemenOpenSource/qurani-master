@@ -89,27 +89,11 @@ extension _YoungMuslimHomeScreenRail on _YoungMuslimHomeScreenState {
   }
 
   void _openCategory(BuildContext context, String categoryId) {
-    Navigator.of(context).push(
-      youngMuslimPageRoute<void>(
-        screenName: 'YoungMuslimCategoryScreen',
-        child: YoungMuslimRouteScope.inherit(
-          context: context,
-          child: YoungMuslimCategoryScreen(categoryId: categoryId),
-        ),
-      ),
-    );
+    context.router.push(YoungMuslimCategoryRoute(categoryId: categoryId));
   }
 
   void _openVideo(BuildContext context, String videoId) {
-    Navigator.of(context).push(
-      youngMuslimPageRoute<void>(
-        screenName: 'YoungMuslimVideoDetailsScreen',
-        child: YoungMuslimRouteScope.inherit(
-          context: context,
-          child: YoungMuslimVideoDetailsScreen(videoId: videoId),
-        ),
-      ),
-    );
+    context.router.push(YoungMuslimVideoDetailsRoute(videoId: videoId));
   }
 
   Future<void> _showFiltersSheet(

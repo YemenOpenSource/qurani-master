@@ -12,9 +12,9 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:quran_app/core/components/shimmer_widget.dart';
 import 'package:quran_app/core/failure/request_state.dart';
+import 'package:quran_app/core/router/app_router.gr.dart';
 import 'package:quran_app/core/theme/app_skin.dart';
 import 'package:quran_app/core/util/hijri_date.dart';
-import 'package:quran_app/core/util/my_extensions.dart';
 import 'package:quran_app/core/util/theme_colors.dart';
 import 'package:quran_app/core/widgets/app_icon.dart';
 import 'package:quran_app/core/widgets/app_scaffold/app_scaffold_widget.dart';
@@ -23,7 +23,6 @@ import 'package:quran_app/features/prayer_time/data/model/prayer_info.dart';
 import 'package:quran_app/features/prayer_time/data/model/prayer_location_selection.dart';
 import 'package:quran_app/features/prayer_time/data/service/prayer_calculation_params.dart';
 import 'package:quran_app/features/prayer_time/presentation/bloc/prayer_time_bloc.dart';
-import 'package:quran_app/features/prayer_time/presentation/view/pages/prayer_time_settings_screen.dart';
 import 'package:quran_app/features/prayer_time/presentation/view/widgets/prayer_location_picker_sheet.dart';
 import 'package:quran_app/l10n/l10n.dart';
 
@@ -84,13 +83,7 @@ class _PrayerTimeScreenState extends State<PrayerTimeScreen> {
         trailing: IconButton(
           tooltip: context.l10n.prayerTimeSettingsTitle,
           onPressed: () {
-            context.push(
-              BlocProvider.value(
-                value: context.read<PrayerTimeBloc>(),
-                child: const PrayerTimeSettingsScreen(),
-              ),
-              screenName: 'PrayerTimeSettingsScreen',
-            );
+            context.router.push(const PrayerTimeSettingsRoute());
           },
           icon: AppIcon(AppIcons.settings, size: 16.sp, color: skin.accent),
         ),
