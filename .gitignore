@@ -48,3 +48,31 @@ app.*.map.json
 /Flutter-Alarm-Manager-POC-master
 
 
+
+# ---------------------------------------------------------------------------
+# Secrets — never commit. These stay on disk locally but must not be tracked.
+# ---------------------------------------------------------------------------
+
+# Android signing
+*.jks
+*.keystore
+android/key.properties
+
+# Firebase config (each contributor supplies their own project)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
+
+# Apple credentials
+*.p8
+*.p12
+*.mobileprovision
+*.certSigningRequest
+
+# Generic
+.env
+.env.*
+!.env.example
+*service-account*.json
+secrets.properties
