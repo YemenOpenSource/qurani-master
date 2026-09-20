@@ -17,10 +17,6 @@ import 'package:quran_app/core/router/app_router.gr.dart';
 // يقتضي تغيير نوع وسيط `WirdScreen` من `bool` إلى `String`، وهو تغيير يمسّ
 // كل موضع نداء (`main_thikr_screen.dart`، `thikr_slider.dart`،
 // `daily_wird_destination_resolver.dart`)، فتُرك خارج هذه الخطوة.
-//
-// TODO(routing): الباني `WirdScreen.custom` (أذكار النوم، الجمعة، أدعية
-// القرآن…) لا يولّد له `auto_route` مسارًا — المولّد يقرأ بانيًا واحدًا فقط.
-// يحتاج ودجت مستقلّة عليها `@RoutePage()` أو توسيع الباني الافتراضي.
 abstract final class WirdRoutes {
   static List<AutoRoute> get routes => [
         RedirectRoute(path: '/wird/morning', redirectTo: '/wird/true'),
